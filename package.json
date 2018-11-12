@@ -1,7 +1,7 @@
 {
-  "name": "leerlo",
+  "name": "plogic",
   "version": "1.0.0",
-  "description": "A Reddit clone project for BEW 1.2, except right-wing extremism and hate speech is explicitly disallowed.",
+  "description": "Logic Circuit Puzzles",
   "main": "./server/server.js",
   "scripts": {
     "test": "mocha --require @babel/polyfill --require @babel/register --exit",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lvreynoso/leerlo.git"
+    "url": "git+https://github.com/lvreynoso/plogic.git"
   },
   "author": "Lucia Reynoso",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/lvreynoso/leerlo/issues"
+    "url": "https://github.com/lvreynoso/plogic/issues"
   },
-  "homepage": "https://github.com/lvreynoso/leerlo#readme",
+  "homepage": "https://github.com/lvreynoso/plogic#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
