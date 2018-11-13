@@ -9,12 +9,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Leerlo.js</title>
+    <title>plogic</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Leerlo</a>
+        <a class="navbar-brand" href="/">plogic</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,12 +23,9 @@
             <ul class="navbar-nav mr-auto">
                 {{#if currentUser}}
                 <li class="nav-item active">
-                    <a href="/posts/new" class="btn btn-primary navbar-btn">New Post<span class="sr-only">(current)</span></a>
+                    <a href="/profile" class="nav-link">{{currentUser.username}}<span class="sr-only">(screenreader)</span></a>
                 </li>
                 {{/if}}
-                <li class="nav-item">
-                    <a href="/posts" class="nav-link">All Posts</a>
-                </li>
             </ul>
             <ul class="navbar-nav navbar-right">
                 {{#if currentUser}}
