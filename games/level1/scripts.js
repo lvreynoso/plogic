@@ -41,6 +41,35 @@ class Switch {
 
 // add a comment for this object
 class Bulb {
-    
+
 }
+
+class Game {
+    constructor() {
+        // add objects needed
+        // add in values that need to be passed in
+        this.AndGate = AndGate()
+        this.Switch = Switch()
+        this.Bulb = Bulb()
+    }
+
+    draw() {
+        // draw the game
+        // draw objects
+        // draw level
+    }
+}
+
+
+function mouseMoveHandler(e) {
+    let relativeX = e.clientX - canvas.offsetLeft;
+    // relativeX is where our mouse is
+
+    // if mouse is between 0 and canvas width
+    if(relativeX > 0 && relativeX < canvas.width) {
+        // do something
+    }
+}
+
+document.addEventListener("mousemove", mouseMoveHandler, false);
 
