@@ -34,11 +34,39 @@ class AndGate {
         ctx.stroke();
     }
 
+    drawFocus(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 40, 0, 2 * Math.PI, true)
+        ctx.strokeStyle = 'purple';
+        ctx.stroke();
+        ctx.strokeStyle = 'black';
+    }
+
     update(ctx, mouse) {
-        if (this.held == true) {
-            this.x = mouse.x;
-            this.y = mouse.y;
+        // check if the mouse is near us
+        let mouseOver = false;
+        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
+            mouseOver = true;
         }
+
+        // if the mouse is near us, check for any action we should take
+        if (mouseOver == true) {
+            // check if we were clicked on
+            if (mouse.clicked == true) {
+                // toggle being held
+                this.held = !this.held;
+            }
+            // if being held, move with the mouse
+            if (this.held == true) {
+                this.x = mouse.x;
+                this.y = mouse.y;
+            } else {
+                // if not being held, draw a focus ring
+                this.drawFocus(ctx);
+            }
+        }
+
+        this.draw(ctx);
         this.draw(ctx);
     }
 }
@@ -64,16 +92,6 @@ class Switch {
         this.held = false;
     }
 
-    // functions can be added in classes
-    toggle() {
-        if (this.state == true) {
-            this.state = false
-        }
-        else {
-            this.state = true
-        }
-    }
-
     draw(ctx) {
         ctx.strokeRect(this.x - 15, this.y - 25, 30, 50);
         ctx.beginPath();
@@ -95,11 +113,50 @@ class Switch {
         ctx.fillStyle = 'black';
     }
 
+    drawFocus(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 40, 0, 2 * Math.PI, true)
+        ctx.strokeStyle = 'purple';
+        ctx.stroke();
+        ctx.strokeStyle = 'black';
+    }
+
     update(ctx, mouse) {
-        if (this.held == true) {
-            this.x = mouse.x;
-            this.y = mouse.y;
+        // check if the mouse is near us
+        let mouseOver = false;
+        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
+            mouseOver = true;
         }
+
+        let mouseInSwitchZone = false;
+        if (Math.abs(mouse.x - this.x) < 5 && Math.abs(mouse.y - this.y) < 10) {
+            mouseInSwitchZone = true;
+        }
+
+        // if the mouse is near us, check for any action we should take
+        if (mouseOver == true) {
+            // check if we were clicked on
+            if (mouse.clicked == true) {
+                // if the click was in the switch zone and we aren't being held
+                if (mouseInSwitchZone == true && !this.held) {
+                    // toggle power
+                    this.state = !this.state;
+                } else {
+                    // toggle being held
+                    this.held = !this.held;
+                }
+            }
+            // if being held, move with the mouse
+            if (this.held == true) {
+                this.x = mouse.x;
+                this.y = mouse.y;
+            } else {
+                // if not being held, draw a focus ring
+                this.drawFocus(ctx);
+            }
+        }
+
+        this.draw(ctx);
         this.draw(ctx);
     }
 }
@@ -117,24 +174,6 @@ class Bulb {
         this.held = false;
     }
 
-    hold() {
-        this.held = true;
-    }
-
-    drop() {
-        this.held = false;
-    }
-
-    // functions can be added in classes
-    toggle() {
-        if (this.state == true) {
-            this.state = false
-        }
-        else {
-            this.state = true
-        }
-    }
-
     draw(ctx) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, 20, (2/3) * Math.PI, (1/3) * Math.PI, false);
@@ -149,11 +188,40 @@ class Bulb {
         ctx.fillStyle = 'black';
     }
 
+    drawFocus(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 40, 0, 2 * Math.PI, true)
+        ctx.strokeStyle = 'purple';
+        ctx.stroke();
+        ctx.strokeStyle = 'black';
+    }
+
     update(ctx, mouse) {
-        if (this.held == true) {
-            this.x = mouse.x;
-            this.y = mouse.y;
+        // check if the mouse is near us
+        let mouseOver = false;
+        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
+            mouseOver = true;
         }
+
+        // if the mouse is near us, check for any action we should take
+        if (mouseOver == true) {
+            // check if we were clicked on
+            if (mouse.clicked) {
+                // toggle being held
+                this.held = !this.held;
+                mouse.holding = !mouse.holding;
+            }
+            // if being held, move with the mouse
+            if (this.held == true) {
+                this.x = mouse.x;
+                this.y = mouse.y;
+            } else {
+                // if not being held, draw a focus ring
+                this.drawFocus(ctx);
+            }
+        }
+
+        this.draw(ctx);
         this.draw(ctx);
     }
 }
