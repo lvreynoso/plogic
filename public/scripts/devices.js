@@ -1,5 +1,70 @@
 // contains all our device code
+// this is by far the worst code I've ever written.
 
+// wires that run between devices
+class Wire {
+    constructor(start) {
+        this.start = {
+            x: start.x,
+            y: start.y,
+            inputPower: start.outputPower,
+            outputPower: false,
+            connection: start
+        }
+
+        this.end = {
+            x: start.x,
+            y: start.y,
+            inputPower: false,
+            outputPower: false,
+            connection: undefined
+        }
+
+        this.power = this.start.inputPower || this.end.inputPower;
+
+        // always starts held
+        this.held = true;
+    }
+    cut() {
+        if (this.start.connection != undefined) {
+            this.start.connection.wire = undefined;
+            this.start.connection = undefined;
+        }
+        if (this.end.connection != undefined) {
+            this.end.connection.wire = undefined;
+            this.end.connection = undefined;
+        }
+    }
+
+    draw(ctx) {
+        if (this.cut != true) {
+            ctx.beginPath();
+            ctx.moveTo(this.start.x, this.start.y);
+            ctx.lineTo(this.end.x, this.end.y);
+            ctx.stroke();
+        }
+    }
+
+    update(ctx, mouse) {
+        // update power
+        if (this.start.connection != undefined) {
+            this.start.inputPower = this.start.connection.outputPower;
+        }
+        if (this.end.connection != undefined) {
+            this.end.inputPower = this.end.connection.outputPower;
+        }
+        this.power = this.start.inputPower || this.end.inputPower
+        this.start.outputPower = this.power;
+        this.end.outputPower = this.power;
+
+        if (this.held == true) {
+            this.end.x = mouse.x;
+            this.end.y = mouse.y;
+        }
+
+        this.draw(ctx);
+    }
+}
 
 // AND Gate
 class AndGate {
@@ -13,26 +78,24 @@ class AndGate {
         this.inputOne = {
             x: undefined,
             y: undefined,
-            power: false
+            inputPower: false,
+            outputPower: false,
+            wire: undefined
         }
         this.inputTwo = {
             x: undefined,
             y: undefined,
-            power: false
+            inputPower: false,
+            outputPower: false,
+            wire: undefined
         }
         this.output = {
             x: undefined,
             y: undefined,
-            power: false
+            inputPower: false,
+            outputPower: false,
+            wire: undefined
         }
-    }
-
-    hold() {
-        this.held = true;
-    }
-
-    drop() {
-        this.held = false;
     }
 
     draw(ctx) {
@@ -64,7 +127,7 @@ class AndGate {
     drawInputOne(ctx) {
         // draw a connecting hook on the top left wire of the AND gate
         ctx.beginPath();
-        ctx.arc(this.x - 75, this.y - 30, 5, (3/2) * Math.PI, (5/2) * Math.PI, false);
+        ctx.arc(this.x - 75, this.y - 30, 5, 0, 2 * Math.PI, false);
         ctx.stroke();
 
         this.inputOne.x = this.x - 75;
@@ -74,7 +137,7 @@ class AndGate {
     drawInputTwo(ctx) {
         // draw a connecting hook on the bottom left wire of the AND gate
         ctx.beginPath();
-        ctx.arc(this.x - 75, this.y + 30, 5, (3/2) * Math.PI, (5/2) * Math.PI, false);
+        ctx.arc(this.x - 75, this.y + 30, 5, 0, 2 * Math.PI, false);
         ctx.stroke();
 
         this.inputTwo.x = this.x - 75;
@@ -84,7 +147,7 @@ class AndGate {
     drawOutput(ctx) {
         // draw a connecting hook on the right wire of the AND gate
         ctx.beginPath();
-        ctx.arc(this.x + 55, this.y, 5, (1/2) * Math.PI, (3/2) * Math.PI, false);
+        ctx.arc(this.x + 55, this.y, 5, 0, 2 * Math.PI, false);
         ctx.stroke();
 
         this.output.x = this.x + 55;
@@ -101,9 +164,50 @@ class AndGate {
         }
     }
 
+    attachWire(mouse, connector) {
+        let newWire = {
+            wasMade: false,
+            wire: undefined
+        }
+        if (mouse.clicked == true && mouse.holding == false) {
+            // make a new wire!
+            // first check if there's already a wire there
+            if (connector.wire != undefined) {
+                connector.wire.cut();
+            }
+            let wire = new Wire(connector)
+            mouse.holding = true;
+            mouse.heldDevice = wire;
+            mouse.clicked = false;
+            connector.wire = wire;
+            newWire.wasMade = true;
+            newWire.wire = wire;
+        } else if (mouse.clicked == true && mouse.holding == true) {
+            // if mouse is holding a wire
+            // first check if there's already a wire there
+            if (connector.wire != undefined) {
+                connector.wire.cut();
+            }
+            let wire = mouse.heldDevice;
+            connector.wire = wire;
+            mouse.holding = false;
+            mouse.heldDevice = undefined;
+            mouse.clicked = false;
+            wire.end.connection = connector;
+            wire.held = false;
+        }
+        return newWire;
+    }
+
     update(ctx, mouse) {
         // update power
-        this.output.power = this.inputOne.power && this.inputTwo.power;
+        if (this.inputOne.wire != undefined) {
+            this.inputOne.inputPower = this.inputOne.wire.power;
+        }
+        if (this.inputTwo.wire != undefined) {
+            this.inputTwo.inputPower = this.inputTwo.wire.power;
+        }
+        this.output.outputPower = this.inputOne.inputPower && this.inputTwo.inputPower;
 
         // check if the mouse is near us
         let mouseOver = false;
@@ -137,12 +241,21 @@ class AndGate {
             }
         }
 
+        let newWire = {
+            wasMade: false,
+            wire: undefined
+        }
         if (mouseNearConnector != undefined) {
             this.drawConnectorFocus(ctx, mouseNearConnector);
+            if (mouse.clicked == true) {
+                newWire = this.attachWire(mouse, mouseNearConnector);
+            }
         }
 
         this.draw(ctx);
         this.draw(ctx);
+
+        return newWire;
     }
 }
 
@@ -160,16 +273,10 @@ class Switch {
         this.connector = {
             x: this.x,
             y: this.y + 40,
-            power: this.state
+            outputPower: this.state,
+            inputPower: false,
+            wire: undefined
         }
-    }
-
-    hold() {
-        this.held = true;
-    }
-
-    drop() {
-        this.held = false;
     }
 
     draw(ctx) {
@@ -210,7 +317,7 @@ class Switch {
         ctx.closePath();
         ctx.stroke();
         ctx.beginPath();
-        ctx.arc(this.x, this.y + 35, 5, (3/3) * Math.PI, (6/3) * Math.PI, false);
+        ctx.arc(this.x, this.y + 35, 5, 0, 2 * Math.PI, false);
         ctx.stroke();
 
         this.connector.x = this.x;
@@ -227,7 +334,7 @@ class Switch {
 
     update(ctx, mouse) {
         // update connector power
-        this.connector.power = this.state;
+        this.connector.outputPower = this.state;
 
         // check if the mouse is near us
         let mouseOver = false;
@@ -269,12 +376,46 @@ class Switch {
             mouseNearConnector = true;
         }
 
+        let newWire = {
+            wasMade: false,
+            wire: undefined
+        }
         if (mouseNearConnector == true) {
             this.drawConnectorFocus(ctx);
+            // if mouse is not holding a wire
+            if (mouse.clicked == true && mouse.holding == false) {
+                // make a new wire!
+                // first check if there's already a wire there
+                if (this.connector.wire != undefined) {
+                    this.connector.wire.cut();
+                }
+                let wire = new Wire(this.connector)
+                mouse.holding = true;
+                mouse.heldDevice = wire;
+                mouse.clicked = false;
+                this.connector.wire = wire;
+                newWire.wasMade = true;
+                newWire.wire = wire;
+            } else if (mouse.clicked == true && mouse.holding == true) {
+                // if mouse is holding a wire
+                // first check if there's already a wire there
+                if (this.connector.wire != undefined) {
+                    this.connector.wire.cut();
+                }
+                let wire = mouse.heldDevice;
+                this.connector.wire = wire;
+                mouse.holding = false;
+                mouse.heldDevice = undefined;
+                mouse.clicked = false;
+                wire.end.connection = this.connector;
+                wire.held = false;
+            }
         }
 
         this.draw(ctx);
         this.draw(ctx);
+
+        return newWire;
     }
 }
 
@@ -292,7 +433,9 @@ class Bulb {
         this.connector = {
             x: this.x,
             y: this.y + 40,
-            power: false
+            inputPower: false,
+            outputPower: false,
+            wire: undefined
         }
     }
 
@@ -327,7 +470,7 @@ class Bulb {
         ctx.closePath();
         ctx.stroke();
         ctx.beginPath();
-        ctx.arc(this.x, this.y + 40, 5, (3/3) * Math.PI, (6/3) * Math.PI, false);
+        ctx.arc(this.x, this.y + 40, 5, 0, 2 * Math.PI, false);
         ctx.stroke();
 
         this.connector.x = this.x;
@@ -344,7 +487,12 @@ class Bulb {
 
     update(ctx, mouse) {
         // update power
-        this.state = this.connector.power
+        if (this.connector.wire != undefined) {
+            this.connector.inputPower = this.connector.wire.power;
+        } else {
+            this.connector.inputPower = false;
+        }
+        this.state = this.connector.inputPower;
 
         // check if the mouse is near us
         let mouseOver = false;
@@ -376,12 +524,46 @@ class Bulb {
             mouseNearConnector = true;
         }
 
+        let newWire = {
+            wasMade: false,
+            wire: undefined
+        }
         if (mouseNearConnector == true) {
             this.drawConnectorFocus(ctx);
+            // if mouse is not holding a wire
+            if (mouse.clicked == true && mouse.holding == false) {
+                // make a new wire!
+                // first check if there's already a wire there
+                if (this.connector.wire != undefined) {
+                    this.connector.wire.cut();
+                }
+                let wire = new Wire(this.connector)
+                mouse.holding = true;
+                mouse.heldDevice = wire;
+                mouse.clicked = false;
+                this.connector.wire = wire;
+                newWire.wasMade = true;
+                newWire.wire = wire;
+            } else if (mouse.clicked == true && mouse.holding == true) {
+                // if mouse is holding a wire
+                // first check if there's already a wire there
+                if (this.connector.wire != undefined) {
+                    this.connector.wire.cut();
+                }
+                let wire = mouse.heldDevice;
+                this.connector.wire = wire;
+                mouse.holding = false;
+                mouse.heldDevice = undefined;
+                mouse.clicked = false;
+                wire.end.connection = this.connector;
+                wire.held = false;
+            }
         }
 
         this.draw(ctx);
         this.draw(ctx);
+
+        return newWire;
     }
 }
 
@@ -389,4 +571,5 @@ export {
     AndGate,
     Switch,
     Bulb,
+    Wire
 }

@@ -27,6 +27,7 @@ var mouse = {
 }
 
 var devices = [];
+var wires = [];
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position
@@ -77,7 +78,15 @@ function animate() {
 
     for (let index in devices) {
         ctx.strokeStyle = 'black';
-        devices[index].update(ctx, mouse);
+        let newWire = devices[index].update(ctx, mouse);
+        if (newWire.wasMade == true) {
+            wires.push(newWire.wire);
+        }
+    }
+
+    for (let index in wires) {
+        ctx.strokeStyle = 'black';
+        wires[index].update(ctx, mouse);
     }
 
     ctx.fillText('AND Gate', 140, 150)
