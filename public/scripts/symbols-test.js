@@ -6,6 +6,13 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width  = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
+// fix coordinate issue by updating the CSS
+// ctx.canvas.style.width = canvas.width + 'px';
+// ctx.canvas.style.height = canvas.height + 'px';
+
+// fix coordinate issue by getting our canvas canvas bounds
+// and offsetting the mouse position
+var canvasBounds = canvas.getBoundingClientRect();
 
 // get mouse movement
 window.addEventListener('mousemove', mouseTracker);
@@ -23,17 +30,29 @@ var selector = {
     index: undefined,
 }
 
+function locator(event) {
+    let location = {
+        x: undefined,
+        y: undefined
+    }
+    location.x = event.x - canvasBounds.x;
+    location.y = event.y - canvasBounds.y;
+    return location
+}
+
 function mouseTracker(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
+    let loc = locator(event)
+    mouse.x = loc.x;
+    mouse.y = loc.y;
     // console.log(`Mouse x: ${mouse.x}, y: ${mouse.y}`);
 }
 
 function mouseClicker(event) {
+    let loc = locator(event)
     if (selector.holds == false) {
         let found = false;
         let deviceIndex = 0;
-        console.log(devices);
+        // console.log(devices);
         while (!found) {
             // debugging
             // console.log(devices[deviceIndex]);
@@ -41,7 +60,7 @@ function mouseClicker(event) {
             // console.log(event.y - devices[deviceIndex].y);
             // check how close the cursor is to this device
             // if true, end the loop and pick up the device
-            if (Math.abs(event.x - devices[deviceIndex].x) < 30 && Math.abs(event.y - devices[deviceIndex].y) < 30) {
+            if (Math.abs(loc.x - devices[deviceIndex].x) < 50 && Math.abs(loc.y - devices[deviceIndex].y) < 50) {
                 found = true;
                 selector.holds = true;
                 selector.index = deviceIndex;
