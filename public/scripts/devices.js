@@ -3,28 +3,38 @@
 
 // wires that run between devices
 class Wire {
-    constructor(start) {
+    constructor(loc) {
+        this.id = 
+
         this.start = {
-            x: start.x,
-            y: start.y,
-            inputPower: start.outputPower,
+            x: loc.x,
+            y: loc.y,
+            inputPower: false,
             outputPower: false,
-            connection: start
+            connection: undefined
         }
 
         this.end = {
-            x: start.x,
-            y: start.y,
+            x: loc.x,
+            y: loc.y,
             inputPower: false,
             outputPower: false,
             connection: undefined
         }
 
         this.power = this.start.inputPower || this.end.inputPower;
+        this.held = true;
+        this.cut = false;
+    }
 
-        // always starts held
+    grab() {
         this.held = true;
     }
+
+    drop() {
+        this.held = false;
+    }
+
     cut() {
         if (this.start.connection != undefined) {
             this.start.connection.wire = undefined;
@@ -34,6 +44,7 @@ class Wire {
             this.end.connection.wire = undefined;
             this.end.connection = undefined;
         }
+        this.cut = true;
     }
 
     draw(ctx) {
@@ -96,6 +107,14 @@ class AndGate {
             outputPower: false,
             wire: undefined
         }
+    }
+
+    grab() {
+        this.held = true;
+    }
+
+    drop() {
+        this.held = false;
     }
 
     draw(ctx) {
@@ -279,6 +298,14 @@ class Switch {
         }
     }
 
+    grab() {
+        this.held = true;
+    }
+
+    drop() {
+        this.held = false;
+    }
+
     draw(ctx) {
         ctx.strokeRect(this.x - 15, this.y - 25, 30, 50);
         ctx.beginPath();
@@ -437,6 +464,14 @@ class Bulb {
             outputPower: false,
             wire: undefined
         }
+    }
+
+    grab() {
+        this.held = true;
+    }
+
+    drop() {
+        this.held = false;
     }
 
     draw(ctx) {
