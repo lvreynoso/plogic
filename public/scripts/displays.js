@@ -98,6 +98,11 @@ class Bulb {
         this.draw(ctx);
         this.draw(ctx);
     }
+
+    updateLocation(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 export { Bulb };

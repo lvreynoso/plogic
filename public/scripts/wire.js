@@ -49,6 +49,8 @@ class Wire {
 
     anchor(connection) {
         this.start.connection = connection;
+        this.start.x = connection.x;
+        this.start.y = connection.y;
         if (connection.wire != undefined) {
             console.log('Wire already in place, cutting...', connection.wire);
             connection.wire.cut();
@@ -58,6 +60,8 @@ class Wire {
 
     connect(connection) {
         this.end.connection = connection;
+        this.end.x = connection.x;
+        this.end.y = connection.y;
         if (connection.wire != undefined) {
             connection.wire.cut();
         }
@@ -85,12 +89,16 @@ class Wire {
     }
 
     update(ctx) {
-        // update power
+        // update power and endpoints
         if (this.start.connection != undefined) {
             this.start.inputPower = this.start.connection.outputPower;
+            this.start.x = this.start.connection.x;
+            this.start.y = this.start.connection.y;
         }
         if (this.end.connection != undefined) {
             this.end.inputPower = this.end.connection.outputPower;
+            this.end.x = this.end.connection.x;
+            this.end.y = this.end.connection.y;
         }
         this.power = this.start.inputPower || this.end.inputPower
         this.start.outputPower = this.power;

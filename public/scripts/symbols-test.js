@@ -113,8 +113,7 @@ function mouseClicker(event) {
 function mouseGrabber(event) {
     let loc = locator(event);
     if (mouse.holding == false && mouse.underPointer.device != false) {
-        mouse.holding = true;
-        mouse.heldDevice = mouse.underPointer.device;
+        mouse.grab(mouse.underPointer.device)
     }
 }
 
@@ -162,6 +161,10 @@ function animate() {
         button: false
     }
     deviceArray.map(key => {
+        // if the device is being held, update it to the mouse pointer's position
+        if (devices[key].held == true) {
+            devices[key].updateLocation(mouse.x, mouse.y)
+        }
         // draw the device
         devices[key].update(ctx)
         // now we check if the device is under the mouse pointer
