@@ -18,7 +18,7 @@ var canvasBounds = canvas.getBoundingClientRect();
 window.addEventListener('mousemove', mouseTracker);
 window.addEventListener('mousedown', mouseGrabber);
 window.addEventListener('mouseup', mouseReleaser);
-window.addEventListener('click', mouseClicker);
+// window.addEventListener('click', mouseClicker);
 
 var mouse = {
     x: undefined,
@@ -43,8 +43,8 @@ var mouse = {
     }
 }
 
-var devices = [];
-var wires = [];
+var devices = {};
+var wires = {};
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position
@@ -64,6 +64,18 @@ function mouseTracker(event) {
     mouse.y = loc.y;
 }
 
+// function anchorWire(wire, connection) {
+//
+// }
+//
+// function attachWire(wire, connection) {
+//
+// }
+//
+// function cutWire(wire) {
+//
+// }
+/*
 function mouseClicker(event) {
     let loc = locator(event) {
         if (mouse.holding == false) {
@@ -117,6 +129,7 @@ function mouseClicker(event) {
         }
     }
 }
+*/
 
 function mouseGrabber(event) {
     let loc = locator(event);
@@ -138,19 +151,19 @@ ctx.font = '18px sans-serif'
 
 
 let testGateAND = new device.AndGate(200, 200);
-devices.push(testGateAND);
+devices[testGateAND.id] = testGateAND;
 
 
 let testSwitch = new device.Switch(325, 200);
 testSwitch.state = true;
-devices.push(testSwitch);
+devices[testSwitch.id] = testSwitch;
 
 let testSwitch2 = new device.Switch(325, 300);
-devices.push(testSwitch2);
+devices[testSwitch2.id] = testSwitch2;
 
 
 let testBulb = new device.Bulb(460, 200);
-devices.push(testBulb);
+devices[testBulb.id] = testBulb;
 
 // main animation loop
 function animate() {
@@ -158,8 +171,10 @@ function animate() {
 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-    devices.map(entry => entry.update(ctx, mouse));
-    wires.map(entry => entry.update(ctx, mouse));
+    let deviceArray = Object.keys(devices);
+    let wireArray = Object.keys(wires);
+    deviceArray.map(key => devices[key].update(ctx, mouse));
+    wireArray.map(key => devices[key].update(ctx, mouse));
 
     ctx.fillText('AND Gate', 140, 150)
     ctx.fillText('Switch', 300, 150)
