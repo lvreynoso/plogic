@@ -26,7 +26,7 @@ var mouse = {
     y: undefined,
     holding: false,
     heldDevice: undefined,
-    underCursor: {
+    underPointer: {
         device: false,
         connector: false,
         button: false
@@ -68,19 +68,14 @@ function mouseTracker(event) {
     let loc = locator(event)
     mouse.x = loc.x;
     mouse.y = loc.y;
+
+    if (mouse.holding == true) {
+        mouse.heldDevice.x = mouse.x;
+        mouse.heldDevice.y = mouse.y;
+    }
 }
 
-// function anchorWire(wire, connection) {
-//
-// }
-//
-// function attachWire(wire, connection) {
-//
-// }
-//
-// function cutWire(wire) {
-//
-// }
+
 /*
 function mouseClicker(event) {
     let loc = locator(event) {
@@ -139,19 +134,27 @@ function mouseClicker(event) {
 
 function mouseGrabber(event) {
     let loc = locator(event);
-    if (mouse.holding == false) {
-        devices.map(entry => {
-            let underCursor = entry.checkLocation(loc);
-            if (underCursor == true) {
-                mouse.grab(entry);
-            }
-        })
+    if (mouse.holding == false && mouse.underPointer.device != false) {
+        mouse.holding = true;
+        mouse.heldDevice = mouse.underPointer.device;
     }
 }
 
 function mouseReleaser(event) {
     mouse.drop();
 }
+
+// function anchorWire(wire, connection) {
+//
+// }
+//
+// function attachWire(wire, connection) {
+//
+// }
+//
+// function cutWire(wire) {
+//
+// }
 
 ctx.font = '18px sans-serif'
 
@@ -186,8 +189,12 @@ function animate() {
         button: false
     }
     deviceArray.map(key => {
+        // draw the device
         devices[key].update(ctx)
+        // now we check if the device is under the mouse pointer
         let focused = false;
+        // look through all the connectors - if pointer is over one,
+        // draw focus ring and keep note of it
         devices[key].connectors.map(connector => {
             if (utils.getDistance(mouse, connector) < 10) {
                 devices[key].drawConnectorFocus(ctx, connector);
@@ -195,10 +202,14 @@ function animate() {
                 found.connector = connector;
             }
         })
+        // if we aren't focused on a connector, check if the pointer is
+        // over the device - if so draw focus ring and keep note of it
         if (focused == false && utils.getDistance(mouse, devices[key]) < 30) {
             devices[key].drawFocus(ctx);
             found.device = devices[key];
         }
+        // check if the mouse pointer is over a special zone in the device,
+        // like a button toggle
         if (devices[key].zone != undefined && utils.inZone(mouse, devices[key].zone) == true) {
             found.button = devices[key].button;
         }
@@ -206,7 +217,7 @@ function animate() {
     wireArray.map(key => devices[key].update(ctx));
 
     // update devices under the cursor
-    mouse.underCursor = found;
+    mouse.underPointer = found;
 
 
     ctx.fillText('AND Gate', 140, 150)
