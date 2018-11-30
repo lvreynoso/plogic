@@ -1,4 +1,5 @@
 import * as device from './devices.js'
+import * as utils from './utils.js'
 
 // reference to canvas
 var canvas = document.getElementById("myCanvas");
@@ -25,6 +26,11 @@ var mouse = {
     y: undefined,
     holding: false,
     heldDevice: undefined,
+    underCursor: {
+        device: false,
+        connector: false,
+        button: false
+    },
 
     grab(item) {
         if (this.holding == false) {
@@ -171,16 +177,41 @@ function animate() {
 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
 
+    // draw devices, find the one under the cursor
     let deviceArray = Object.keys(devices);
     let wireArray = Object.keys(wires);
-    deviceArray.map(key => devices[key].update(ctx, mouse));
-    wireArray.map(key => devices[key].update(ctx, mouse));
+    let found = {
+        device: false,
+        connector: false,
+        button: false
+    }
+    deviceArray.map(key => {
+        devices[key].update(ctx)
+        let focused = false;
+        devices[key].connectors.map(connector => {
+            if (utils.getDistance(mouse, connector) < 10) {
+                devices[key].drawConnectorFocus(ctx, connector);
+                focused = true;
+                found.connector = connector;
+            }
+        })
+        if (focused == false && utils.getDistance(mouse, devices[key]) < 30) {
+            devices[key].drawFocus(ctx);
+            found.device = devices[key];
+        }
+        if (devices[key].zone != undefined && utils.inZone(mouse, devices[key].zone) == true) {
+            found.button = devices[key].button;
+        }
+    });
+    wireArray.map(key => devices[key].update(ctx));
+
+    // update devices under the cursor
+    mouse.underCursor = found;
+
 
     ctx.fillText('AND Gate', 140, 150)
     ctx.fillText('Switch', 300, 150)
     ctx.fillText('Bulb', 440, 150)
-
-    mouse.clicked = false;
 }
 
 animate();

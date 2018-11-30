@@ -29,6 +29,7 @@ class Bulb {
             outputPower: false,
             wire: undefined
         }
+        this.connectors = [this.connector];
     }
 
     grab() {
@@ -77,15 +78,15 @@ class Bulb {
         this.connector.y = this.y + 40;
     }
 
-    drawConnectorFocus(ctx) {
+    drawConnectorFocus(ctx, connector) {
         ctx.beginPath();
-        ctx.arc(this.connector.x, this.connector.y, 10, 0, 2 * Math.PI, true)
+        ctx.arc(connector.x, connector.y, 10, 0, 2 * Math.PI, true)
         ctx.strokeStyle = 'purple';
         ctx.stroke();
         ctx.strokeStyle = 'black';
     }
 
-    update(ctx, mouse) {
+    update(ctx) {
         // update power
         if (this.connector.wire != undefined) {
             this.connector.inputPower = this.connector.wire.power;
@@ -93,22 +94,6 @@ class Bulb {
             this.connector.inputPower = false;
         }
         this.state = this.connector.inputPower;
-
-        // check if the mouse is near us
-        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
-            this.drawFocus(ctx);
-        }
-
-
-        // check if the mouse is near a connector
-        if (Math.abs(mouse.x - this.connector.x) < 10 && Math.abs(mouse.y - this.connector.y) < 10) {
-            this.drawConnectorFocus(ctx);
-        }
-
-        let newWire = {
-            wasMade: false,
-            wire: undefined
-        }
 
         this.draw(ctx);
         this.draw(ctx);

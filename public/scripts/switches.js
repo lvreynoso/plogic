@@ -29,6 +29,9 @@ class Switch {
             inputPower: false,
             wire: undefined
         }
+
+        // keep track of all the connectors
+        this.connectors = [this.connector];
     }
 
     grab() {
@@ -84,34 +87,17 @@ class Switch {
         this.connector.y = this.y + 35;
     }
 
-    drawConnectorFocus(ctx) {
+    drawConnectorFocus(ctx, connector) {
         ctx.beginPath();
-        ctx.arc(this.connector.x, this.connector.y, 10, 0, 2 * Math.PI, true)
+        ctx.arc(connector.x, connector.y, 10, 0, 2 * Math.PI, true)
         ctx.strokeStyle = 'purple';
         ctx.stroke();
         ctx.strokeStyle = 'black';
     }
 
-    update(ctx, mouse) {
+    update(ctx) {
         // update connector power
         this.connector.outputPower = this.state;
-
-        // check if the mouse is near us
-        let mouseOver = false;
-        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
-            this.drawFocus(ctx);
-        }
-
-        let mouseInSwitchZone = false;
-        if (Math.abs(mouse.x - this.x) < 5 && Math.abs(mouse.y - this.y) < 10) {
-            mouseInSwitchZone = true;
-        }
-
-        // check if the mouse is near a connector
-        let mouseNearConnector = false;
-        if (Math.abs(mouse.x - this.connector.x) < 10 && Math.abs(mouse.y - this.connector.y) < 10) {
-            this.drawConnectorFocus(ctx);
-        }
 
         this.draw(ctx);
         this.draw(ctx);

@@ -65,7 +65,7 @@ class Wire {
         }
     }
 
-    update(ctx, mouse) {
+    update(ctx) {
         // update power
         if (this.start.connection != undefined) {
             this.start.inputPower = this.start.connection.outputPower;
@@ -76,11 +76,6 @@ class Wire {
         this.power = this.start.inputPower || this.end.inputPower
         this.start.outputPower = this.power;
         this.end.outputPower = this.power;
-
-        if (this.held == true) {
-            this.end.x = mouse.x;
-            this.end.y = mouse.y;
-        }
 
         this.draw(ctx);
     }

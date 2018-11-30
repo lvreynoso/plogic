@@ -41,6 +41,8 @@ class AndGate {
             outputPower: false,
             wire: undefined
         }
+
+        this.connectors = [this.inputOne, this.inputTwo, this.output]
     }
 
     grab() {
@@ -117,7 +119,7 @@ class AndGate {
         }
     }
 
-    update(ctx, mouse) {
+    update(ctx) {
         // update power
         if (this.inputOne.wire != undefined) {
             this.inputOne.inputPower = this.inputOne.wire.power;
@@ -126,19 +128,6 @@ class AndGate {
             this.inputTwo.inputPower = this.inputTwo.wire.power;
         }
         this.output.outputPower = this.inputOne.inputPower && this.inputTwo.inputPower;
-
-        // check if the mouse is near us
-        if (Math.abs(mouse.x - this.x) < 30 && Math.abs(mouse.y - this.y) < 30) {
-            this.drawFocus(ctx)
-        }
-
-        // check if the mouse is near a connector
-        let connectors = [this.inputOne, this.inputTwo, this.output]
-        for (let i = 0; i < connectors.length; i++) {
-            if (Math.abs(mouse.x - connectors[i].x) < 10 && Math.abs(mouse.y - connectors[i].y) < 10) {
-                this.drawConnectorFocus(ctx, connectors[i]);
-            }
-        }
 
         this.draw(ctx);
         this.draw(ctx);
