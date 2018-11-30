@@ -6,20 +6,20 @@ import * as gates from './gates.js';
 import * as displays from './displays.js'
 
 // switches
-var Switch = switches.Switch;
+var Switch = switches;
 
 // wire
 var Wire = wire.Wire;
 
 // gates
-var AndGate = gates.AndGate;
+var Gate = gates;
 
 // displays
-var Bulb = displays.Bulb;
+var Display = displays;
 
 export {
-    AndGate,
     Switch,
-    Bulb,
-    Wire
+    Wire,
+    Gate,
+    Display
 }

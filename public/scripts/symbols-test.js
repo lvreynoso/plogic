@@ -1,5 +1,6 @@
 import * as device from './devices.js'
 import * as utils from './utils.js'
+import * as draw from './draw.js'
 
 // reference to canvas
 var canvas = document.getElementById("myCanvas");
@@ -7,9 +8,6 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
-// fix coordinate issue by updating the CSS
-// ctx.canvas.style.width = canvas.width + 'px';
-// ctx.canvas.style.height = canvas.height + 'px';
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position
@@ -69,16 +67,17 @@ function mouseTracker(event) {
     mouse.x = loc.x;
     mouse.y = loc.y;
 
-    if (mouse.holding == true) {
-        mouse.heldDevice.x = mouse.x;
-        mouse.heldDevice.y = mouse.y;
+    // if the mouse is holding a device, update the device's
+    // position to match the mouse pointer's position
+    if (mouse.holding == true && mouse.heldDevice instanceof device.Wire == false) {
+        mouse.heldDevice.updateLocation(mouse.x, mouse.y);
     }
 }
 
 
 function mouseClicker(event) {
     // if we clicked on a button, toggle the button
-    if (mouse.underPointer.button == true) {
+    if (mouse.underPointer.button == true && mouse.holding == false) {
         mouse.underPointer.device.button();
     } else if (mouse.underPointer.connector != false) {
         console.log('Connector clicked!');
@@ -104,7 +103,7 @@ function mouseClicker(event) {
     if (!mouse.underPointer.device && !mouse.underPointer.connector && !mouse.underPointer.button && mouse.heldDevice instanceof device.Wire) {
         let droppedWire = mouse.heldDevice;
         mouse.drop();
-        cutWire(droppedWire);
+        droppedWire.cut();
     }
 
     console.log(wires);
@@ -123,27 +122,22 @@ function mouseReleaser(event) {
     }
 }
 
-function cutWire(wire) {
-    wire.cut();
-    delete wires[wire.id];
-}
-
 ctx.font = '18px sans-serif'
 
 
-let testGateAND = new device.AndGate(200, 200);
+let testGateAND = new device.Gate.And(200, 200);
 devices[testGateAND.id] = testGateAND;
 
 
-let testSwitch = new device.Switch(325, 200);
+let testSwitch = new device.Switch.TwoWay(325, 200);
 testSwitch.state = true;
 devices[testSwitch.id] = testSwitch;
 
-let testSwitch2 = new device.Switch(325, 300);
+let testSwitch2 = new device.Switch.TwoWay(325, 300);
 devices[testSwitch2.id] = testSwitch2;
 
 
-let testBulb = new device.Bulb(460, 200);
+let testBulb = new device.Display.Bulb(460, 200);
 devices[testBulb.id] = testBulb;
 
 // main animation loop
@@ -161,10 +155,6 @@ function animate() {
         button: false
     }
     deviceArray.map(key => {
-        // if the device is being held, update it to the mouse pointer's position
-        if (devices[key].held == true) {
-            devices[key].updateLocation(mouse.x, mouse.y)
-        }
         // draw the device
         devices[key].update(ctx)
         // now we check if the device is under the mouse pointer
@@ -173,7 +163,7 @@ function animate() {
         // draw focus ring and keep note of it
         devices[key].connectors.map(connector => {
             if (utils.getDistance(mouse, connector) < 10) {
-                devices[key].drawConnectorFocus(ctx, connector);
+                draw.connectorFocus(ctx, connector);
                 focused = true;
                 found.connector = connector;
             }
@@ -181,7 +171,7 @@ function animate() {
         // if we aren't focused on a connector, check if the pointer is
         // over the device - if so draw focus ring and keep note of it
         if (focused == false && utils.getDistance(mouse, devices[key]) < 30) {
-            devices[key].drawFocus(ctx);
+            draw.focus(ctx, devices[key]);
             found.device = devices[key];
         }
         // check if the mouse pointer is over a special zone in the device,

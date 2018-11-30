@@ -1,6 +1,6 @@
 // gates.js - our logic gates
 
-import makeUUID from './identify.js'
+import Device from './prototype.js'
 
 /*
 |--------------------------------------------------------------------------
@@ -11,32 +11,27 @@ import makeUUID from './identify.js'
 |
 */
 
-class AndGate {
-    // constructor takes in values that we want to be
-    // passed in when initializing the class
+class Gate extends Device {
     constructor(x, y) {
-        this.id = makeUUID();
-        // position
-        this.x = x;
-        this.y = y;
-        this.held = false;
+        super(x, y);
+
         this.inputOne = {
-            x: undefined,
-            y: undefined,
+            x: x - 75,
+            y: y - 30,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
         this.inputTwo = {
-            x: undefined,
-            y: undefined,
+            x: x - 75,
+            y: y + 30,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
         this.output = {
-            x: undefined,
-            y: undefined,
+            x: x + 55,
+            y: y,
             inputPower: false,
             outputPower: false,
             wire: undefined
@@ -45,12 +40,13 @@ class AndGate {
         this.connectors = [this.inputOne, this.inputTwo, this.output]
     }
 
-    hold() {
-        this.held = true;
-    }
+}
 
-    drop() {
-        this.held = false;
+class And extends Gate {
+    // constructor takes in values that we want to be
+    // passed in when initializing the class
+    constructor(x, y) {
+        super(x, y);
     }
 
     draw(ctx) {
@@ -65,82 +61,13 @@ class AndGate {
         ctx.lineTo(this.x + 50, this.y);
         ctx.closePath();
         ctx.stroke();
-
-        this.drawInputOne(ctx);
-        this.drawInputTwo(ctx);
-        this.drawOutput(ctx);
-    }
-
-    drawFocus(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 40, 0, 2 * Math.PI, true)
-        ctx.strokeStyle = 'purple';
-        ctx.stroke();
-        ctx.strokeStyle = 'black';
-    }
-
-    drawInputOne(ctx) {
-        // draw a connecting hook on the top left wire of the AND gate
-        ctx.beginPath();
-        ctx.arc(this.x - 75, this.y - 30, 5, 0, 2 * Math.PI, false);
-        ctx.stroke();
-
-        this.inputOne.x = this.x - 75;
-        this.inputOne.y = this.y - 30;
-    }
-
-    drawInputTwo(ctx) {
-        // draw a connecting hook on the bottom left wire of the AND gate
-        ctx.beginPath();
-        ctx.arc(this.x - 75, this.y + 30, 5, 0, 2 * Math.PI, false);
-        ctx.stroke();
-
-        this.inputTwo.x = this.x - 75;
-        this.inputTwo.y = this.y + 30;
-    }
-
-    drawOutput(ctx) {
-        // draw a connecting hook on the right wire of the AND gate
-        ctx.beginPath();
-        ctx.arc(this.x + 55, this.y, 5, 0, 2 * Math.PI, false);
-        ctx.stroke();
-
-        this.output.x = this.x + 55;
-        this.output.y = this.y;
-    }
-
-    drawConnectorFocus(ctx, connector) {
-        if (connector != undefined) {
-            ctx.beginPath();
-            ctx.arc(connector.x, connector.y, 10, 0, 2 * Math.PI, true)
-            ctx.strokeStyle = 'purple';
-            ctx.stroke();
-            ctx.strokeStyle = 'black';
-        }
     }
 
     update(ctx) {
+        super.update(ctx);
         // update power
-        if (this.inputOne.wire != undefined) {
-            this.inputOne.inputPower = this.inputOne.wire.power;
-        } else {
-            this.inputOne.inputPower = false;
-        }
-        if (this.inputTwo.wire != undefined) {
-            this.inputTwo.inputPower = this.inputTwo.wire.power;
-        } else {
-            this.inputTwo.inputPower = false;
-        }
         this.output.outputPower = this.inputOne.inputPower && this.inputTwo.inputPower;
-
-        this.draw(ctx);
-        this.draw(ctx);
-    }
-
-    updateLocation(x, y) {
-        this.x = x;
-        this.y = y;
     }
 }
 
-export { AndGate };
+export { And };
