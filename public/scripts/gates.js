@@ -123,9 +123,13 @@ class AndGate {
         // update power
         if (this.inputOne.wire != undefined) {
             this.inputOne.inputPower = this.inputOne.wire.power;
+        } else {
+            this.inputOne.inputPower = false;
         }
         if (this.inputTwo.wire != undefined) {
             this.inputTwo.inputPower = this.inputTwo.wire.power;
+        } else {
+            this.inputTwo.inputPower = false;
         }
         this.output.outputPower = this.inputOne.inputPower && this.inputTwo.inputPower;
 
