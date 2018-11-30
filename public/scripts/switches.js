@@ -22,6 +22,15 @@ class Switch {
         // on/off; off by default
         this.state = false;
         this.held = false;
+
+        // toggle zone
+        this.zone = {
+            x: x,
+            y: y,
+            width: 10,
+            height: 20
+        }
+
         this.connector = {
             x: this.x,
             y: this.y + 40,
@@ -40,6 +49,13 @@ class Switch {
 
     drop() {
         this.held = false;
+        this.zone.x = this.x;
+        this.zone.y = this.y;
+    }
+
+    button() {
+        // toggle state i.e. on/off status
+        this.state = !this.state;
     }
 
     draw(ctx) {

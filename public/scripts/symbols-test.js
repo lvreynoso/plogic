@@ -19,7 +19,7 @@ var canvasBounds = canvas.getBoundingClientRect();
 window.addEventListener('mousemove', mouseTracker);
 window.addEventListener('mousedown', mouseGrabber);
 window.addEventListener('mouseup', mouseReleaser);
-// window.addEventListener('click', mouseClicker);
+window.addEventListener('click', mouseClicker);
 
 var mouse = {
     x: undefined,
@@ -76,61 +76,12 @@ function mouseTracker(event) {
 }
 
 
-/*
 function mouseClicker(event) {
-    let loc = locator(event) {
-        if (mouse.holding == false) {
-            // find a device underneath and send it a click event
-            let result = {
-                status: 'empty'
-            }
-            let underCursor = false;
-            let index = 0;
-            while (underCursor == false && index < devices.length) {
-                underCursor = device[index].checkLocation(loc);
-                if (underCursor == true) {
-                    let target = device[index];
-                    result = target.click(loc);
-                }
-            }
-            if (result.status == 'connector') {
-                let wire = new device.Wire(loc);
-                mouse.grab(wire);
-                // TODO: Create function
-                anchorWire(wire, result.connection);
-            }
-        } else if (mouse.heldDevice instanceof Wire) {
-            // find a device underneath and send it a click event
-            let result = {
-                status: 'empty',
-                connection: undefined
-            }
-            let underCursor = {
-                status: false,
-                location: undefined
-            }
-            let index = 0;
-            while (underCursor.status == false && index < devices.length) {
-                underCursor = device[index].checkLocation(loc);
-                if (underCursor.status == true) {
-                    let target = device[index];
-                    result = target.click(underCursor.location);
-                }
-            }
-            if (result.status == 'connector') {
-                // TODO: Create function
-                attachWire(mouse.heldDevice, result.connection);
-                mouse.drop();
-            } else {
-                // drop the wire anyways
-                // TODO: create function
-                cutWire(mouse.heldDevice);
-                mouse.drop();
-            }
-        }
+    if (mouse.underPointer.button == true) {
+        mouse.underPointer.device.button();
+        console.log('Button clicked!');
     }
 }
-*/
 
 function mouseGrabber(event) {
     let loc = locator(event);
@@ -211,7 +162,7 @@ function animate() {
         // check if the mouse pointer is over a special zone in the device,
         // like a button toggle
         if (devices[key].zone != undefined && utils.inZone(mouse, devices[key].zone) == true) {
-            found.button = devices[key].button;
+            found.button = true;
         }
     });
     wireArray.map(key => devices[key].update(ctx));
