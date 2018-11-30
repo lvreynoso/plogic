@@ -45,7 +45,7 @@ class AndGate {
         this.connectors = [this.inputOne, this.inputTwo, this.output]
     }
 
-    grab() {
+    hold() {
         this.held = true;
     }
 

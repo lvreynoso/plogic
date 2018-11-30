@@ -32,7 +32,7 @@ class Bulb {
         this.connectors = [this.connector];
     }
 
-    grab() {
+    hold() {
         this.held = true;
     }
 

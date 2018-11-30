@@ -77,10 +77,37 @@ function mouseTracker(event) {
 
 
 function mouseClicker(event) {
+    // if we clicked on a button, toggle the button
     if (mouse.underPointer.button == true) {
         mouse.underPointer.device.button();
-        console.log('Button clicked!');
+    } else if (mouse.underPointer.connector != false) {
+        console.log('Connector clicked!');
+        // if we clicked on a connector...
+        let connector = mouse.underPointer.connector;
+        // if mouse is holding the end of a wire, connect it and drop it
+        if (mouse.heldDevice instanceof device.Wire) {
+            mouse.heldDevice.connect(connector);
+            mouse.drop();
+            console.log('Wire connected');
+        } else {
+            // a free mouse pointer - anchor a new wire to the connector
+            let wire = new device.Wire(connector.x, connector.y);
+            wire.anchor(connector);
+            wires[wire.id] = wire;
+            mouse.grab(wire);
+            console.log('Wire created');
+        }
     }
+
+    // if we clicked on nothing and we're holding a wire, delete it
+    console.log(mouse.underPointer, mouse.heldDevice instanceof device.Wire);
+    if (!mouse.underPointer.device && !mouse.underPointer.connector && !mouse.underPointer.button && mouse.heldDevice instanceof device.Wire) {
+        let droppedWire = mouse.heldDevice;
+        mouse.drop();
+        cutWire(droppedWire);
+    }
+
+    console.log(wires);
 }
 
 function mouseGrabber(event) {
@@ -92,20 +119,15 @@ function mouseGrabber(event) {
 }
 
 function mouseReleaser(event) {
-    mouse.drop();
+    if (mouse.heldDevice instanceof device.Wire == false) {
+        mouse.drop();
+    }
 }
 
-// function anchorWire(wire, connection) {
-//
-// }
-//
-// function attachWire(wire, connection) {
-//
-// }
-//
-// function cutWire(wire) {
-//
-// }
+function cutWire(wire) {
+    wire.cut();
+    delete wires[wire.id];
+}
 
 ctx.font = '18px sans-serif'
 
@@ -165,7 +187,17 @@ function animate() {
             found.button = true;
         }
     });
-    wireArray.map(key => devices[key].update(ctx));
+
+    // draw wires
+    wireArray.map(key => {
+        wires[key].update(ctx);
+        if (wires[key].held == true) {
+            wires[key].updateFreeEnd(mouse.x, mouse.y);
+        }
+        if (wires[key].isCut == true) {
+            delete wires[key];
+        }
+    });
 
     // update devices under the cursor
     mouse.underPointer = found;

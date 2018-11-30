@@ -43,7 +43,7 @@ class Switch {
         this.connectors = [this.connector];
     }
 
-    grab() {
+    hold() {
         this.held = true;
     }
 

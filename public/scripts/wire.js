@@ -12,20 +12,20 @@ import makeUUID from './identify.js'
 */
 
 class Wire {
-    constructor(loc) {
+    constructor(x, y) {
         this.id = makeUUID();
 
         this.start = {
-            x: loc.x,
-            y: loc.y,
+            x: x,
+            y: y,
             inputPower: false,
             outputPower: false,
             connection: undefined
         }
 
         this.end = {
-            x: loc.x,
-            y: loc.y,
+            x: x,
+            y: y,
             inputPower: false,
             outputPower: false,
             connection: undefined
@@ -33,15 +33,35 @@ class Wire {
 
         this.power = this.start.inputPower || this.end.inputPower;
         this.held = true;
-        this.cut = false;
+
+        this.isCut = false;
+
+        console.log(this);
     }
 
-    grab() {
+    hold() {
         this.held = true;
     }
 
     drop() {
         this.held = false;
+    }
+
+    anchor(connection) {
+        this.start.connection = connection;
+        if (connection.wire != undefined) {
+            console.log('Wire already in place, cutting...', connection.wire);
+            connection.wire.cut();
+        }
+        connection.wire = this;
+    }
+
+    connect(connection) {
+        this.end.connection = connection;
+        if (connection.wire != undefined) {
+            connection.wire.cut();
+        }
+        connection.wire = this;
     }
 
     cut() {
@@ -53,16 +73,15 @@ class Wire {
             this.end.connection.wire = undefined;
             this.end.connection = undefined;
         }
-        this.cut = true;
+        this.isCut = true;
+        console.log('Witness me!', this.isCut, this.id);
     }
 
     draw(ctx) {
-        if (this.cut != true) {
-            ctx.beginPath();
-            ctx.moveTo(this.start.x, this.start.y);
-            ctx.lineTo(this.end.x, this.end.y);
-            ctx.stroke();
-        }
+        ctx.beginPath();
+        ctx.moveTo(this.start.x, this.start.y);
+        ctx.lineTo(this.end.x, this.end.y);
+        ctx.stroke();
     }
 
     update(ctx) {
@@ -79,6 +98,14 @@ class Wire {
 
         this.draw(ctx);
     }
+
+    updateFreeEnd(x, y) {
+        this.end.x = x;
+        this.end.y = y;
+    }
+
 }
 
-export { Wire };
+export {
+    Wire
+};
