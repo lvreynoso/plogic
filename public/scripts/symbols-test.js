@@ -69,7 +69,7 @@ function mouseTracker(event) {
 
     // if the mouse is holding a device, update the device's
     // position to match the mouse pointer's position
-    if (mouse.holding == true && mouse.heldDevice instanceof device.Wire == false) {
+    if (mouse.holding == true) {
         mouse.heldDevice.updateLocation(mouse.x, mouse.y);
     }
 }
@@ -124,10 +124,29 @@ function mouseReleaser(event) {
 
 ctx.font = '18px sans-serif'
 
+let testGateOR = new device.Gate.Or(75, 200);
+devices[testGateOR.id] = testGateOR;
+
+let testGateNOR = new device.Gate.Nor(75, 300);
+devices[testGateNOR.id] = testGateNOR;
+
+let testGateXOR = new device.Gate.Xor(75, 400);
+devices[testGateXOR.id] = testGateXOR;
+
+let testGateXNOR = new device.Gate.Xnor(75, 500);
+devices[testGateXNOR.id] = testGateXNOR;
 
 let testGateAND = new device.Gate.And(200, 200);
 devices[testGateAND.id] = testGateAND;
 
+let testGateNAND = new device.Gate.Nand(200, 300);
+devices[testGateNAND.id] = testGateNAND;
+
+let testGateNOT = new device.Gate.Not(200, 400);
+devices[testGateNOT.id] = testGateNOT;
+
+let testGateBuffer = new device.Gate.Buffer(200, 500);
+devices[testGateBuffer.id] = testGateBuffer;
 
 let testSwitch = new device.Switch.TwoWay(325, 200);
 testSwitch.state = true;
@@ -146,9 +165,17 @@ function animate() {
 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
 
+    // draw wires first so they run underneath devices
+    let wireArray = Object.keys(wires);
+    wireArray.map(key => {
+        wires[key].update(ctx);
+        if (wires[key].isCut == true) {
+            delete wires[key];
+        }
+    });
+
     // draw devices, find the one under the cursor
     let deviceArray = Object.keys(devices);
-    let wireArray = Object.keys(wires);
     let found = {
         device: false,
         connector: false,
@@ -181,23 +208,12 @@ function animate() {
         }
     });
 
-    // draw wires
-    wireArray.map(key => {
-        wires[key].update(ctx);
-        if (wires[key].held == true) {
-            wires[key].updateFreeEnd(mouse.x, mouse.y);
-        }
-        if (wires[key].isCut == true) {
-            delete wires[key];
-        }
-    });
-
     // update devices under the cursor
     mouse.underPointer = found;
 
 
-    ctx.fillText('AND Gate', 140, 150)
-    ctx.fillText('Switch', 300, 150)
+    ctx.fillText('Gates', 140, 150)
+    ctx.fillText('Switches', 300, 150)
     ctx.fillText('Bulb', 440, 150)
 }
 

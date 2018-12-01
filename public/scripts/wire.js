@@ -119,7 +119,7 @@ class Wire {
         this.draw(ctx);
     }
 
-    updateFreeEnd(x, y) {
+    updateLocation(x, y) {
         this.end.x = x;
         this.end.y = y;
     }
