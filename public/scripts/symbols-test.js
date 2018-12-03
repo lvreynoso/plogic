@@ -117,47 +117,49 @@ function mouseGrabber(event) {
 }
 
 function mouseReleaser(event) {
-    if (mouse.heldDevice instanceof device.Wire == false) {
+    if ((mouse.heldDevice instanceof device.Wire) == false) {
         mouse.drop();
     }
 }
 
 ctx.font = '18px sans-serif'
 
-let testGateOR = new device.Gate.Or(75, 200);
+let testGateOR = new device.gate.Or(75, 200);
 devices[testGateOR.id] = testGateOR;
 
-let testGateNOR = new device.Gate.Nor(75, 300);
+let testGateNOR = new device.gate.Nor(75, 300);
 devices[testGateNOR.id] = testGateNOR;
 
-let testGateXOR = new device.Gate.Xor(75, 400);
+let testGateXOR = new device.gate.Xor(75, 400);
 devices[testGateXOR.id] = testGateXOR;
 
-let testGateXNOR = new device.Gate.Xnor(75, 500);
+let testGateXNOR = new device.gate.Xnor(75, 500);
 devices[testGateXNOR.id] = testGateXNOR;
 
-let testGateAND = new device.Gate.And(200, 200);
+let testGateAND = new device.gate.And(200, 200);
 devices[testGateAND.id] = testGateAND;
 
-let testGateNAND = new device.Gate.Nand(200, 300);
+let testGateNAND = new device.gate.Nand(200, 300);
 devices[testGateNAND.id] = testGateNAND;
 
-let testGateNOT = new device.Gate.Not(200, 400);
+let testGateNOT = new device.gate.Not(200, 400);
 devices[testGateNOT.id] = testGateNOT;
 
-let testGateBuffer = new device.Gate.Buffer(200, 500);
+let testGateBuffer = new device.gate.Buffer(200, 500);
 devices[testGateBuffer.id] = testGateBuffer;
 
-let testSwitch = new device.Switch.TwoWay(325, 200);
+let testSwitch = new device.switches.TwoWay(325, 200);
 testSwitch.state = true;
 devices[testSwitch.id] = testSwitch;
 
-let testSwitch2 = new device.Switch.TwoWay(325, 300);
+let testSwitch2 = new device.switches.TwoWay(325, 300);
 devices[testSwitch2.id] = testSwitch2;
 
-
-let testBulb = new device.Display.Bulb(460, 200);
+let testBulb = new device.display.Bulb(460, 200);
 devices[testBulb.id] = testBulb;
+
+let testSplitter = new device.wiring.Splitter(325, 400);
+devices[testSplitter.id] = testSplitter;
 
 // main animation loop
 function animate() {

@@ -19,7 +19,6 @@ class Wire {
             x: x,
             y: y,
             inputPower: false,
-            outputPower: false,
             connection: undefined
         }
 
@@ -27,16 +26,14 @@ class Wire {
             x: x,
             y: y,
             inputPower: false,
-            outputPower: false,
             connection: undefined
         }
 
-        this.power = this.start.inputPower || this.end.inputPower;
         this.held = true;
 
         this.isCut = false;
 
-        console.log(this);
+        this.ends = [this.start, this.end];
     }
 
     hold() {
@@ -45,6 +42,16 @@ class Wire {
 
     drop() {
         this.held = false;
+    }
+
+    power(connection) {
+        let power = false;
+        if (this.start.connection == connection) {
+            power = this.end.inputPower;
+        } else if (this.end.connection == connection) {
+            power = this.start.inputPower;
+        }
+        return power;
     }
 
     anchor(connection) {
@@ -87,7 +94,7 @@ class Wire {
         ctx.lineTo(this.end.x, this.end.y);
         ctx.stroke();
 
-        if (this.power == true) {
+        if (this.start.inputPower == true || this.end.inputPower == true) {
             ctx.beginPath();
             ctx.moveTo(this.start.x - 1, this.start.y - 1);
             ctx.lineTo(this.end.x - 1, this.end.y - 1);
@@ -112,10 +119,6 @@ class Wire {
             this.end.x = this.end.connection.x;
             this.end.y = this.end.connection.y;
         }
-        this.power = this.start.inputPower || this.end.inputPower
-        this.start.outputPower = this.power;
-        this.end.outputPower = this.power;
-
         this.draw(ctx);
     }
 

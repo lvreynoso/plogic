@@ -57,7 +57,7 @@ export default class Device {
         // update input power
         this.connectors.forEach(connector => {
             if (connector.wire != undefined) {
-                connector.inputPower = connector.wire.power;
+                connector.inputPower = connector.wire.power(connector);
             } else {
                 connector.inputPower = false;
             }

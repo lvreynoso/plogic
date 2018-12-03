@@ -3,23 +3,22 @@
 import * as switches from './switches.js';
 import * as wire from './wire.js';
 import * as gates from './gates.js';
-import * as displays from './displays.js'
-
-// switches
-var Switch = switches;
+import * as displays from './displays.js';
+import * as wiring from './wiring.js'
 
 // wire
-var Wire = wire.Wire;
+const Wire = wire.Wire;
 
 // gates
-var Gate = gates;
+const gate = gates;
 
 // displays
-var Display = displays;
+const display = displays;
 
 export {
-    Switch,
+    switches,
     Wire,
-    Gate,
-    Display
+    gate,
+    display,
+    wiring
 }
