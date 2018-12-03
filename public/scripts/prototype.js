@@ -20,7 +20,7 @@ export default class Device {
         // on/off; off by default
         this.held = false;
 
-        this.connector = {
+        this.connectorOne = {
             x: this.x,
             y: this.y,
             outputPower: false,
@@ -29,7 +29,7 @@ export default class Device {
         }
 
         // keep track of all the connectors
-        this.connectors = [this.connector];
+        this.connectors = [this.connectorOne];
     }
 
     hold() {

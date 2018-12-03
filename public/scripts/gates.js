@@ -15,21 +15,21 @@ class Gate extends Device {
     constructor(x, y) {
         super(x, y);
 
-        this.inputOne = {
+        this.connectorOne = {
             x: x - 45,
             y: y - 8,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
-        this.inputTwo = {
+        this.connectorTwo = {
             x: x - 45,
             y: y + 8,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
-        this.output = {
+        this.connectorThree = {
             x: x + 41,
             y: y,
             inputPower: false,
@@ -37,7 +37,7 @@ class Gate extends Device {
             wire: undefined
         }
 
-        this.connectors = [this.inputOne, this.inputTwo, this.output]
+        this.connectors = [this.connectorOne, this.connectorTwo, this.connectorThree]
     }
 
 }
@@ -70,7 +70,7 @@ class And extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = this.inputOne.inputPower && this.inputTwo.inputPower;
+        this.connectorThree.outputPower = this.connectorOne.inputPower && this.connectorTwo.inputPower;
     }
 }
 
@@ -101,7 +101,7 @@ class Nand extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = !(this.inputOne.inputPower && this.inputTwo.inputPower);
+        this.connectorThree.outputPower = !(this.connectorOne.inputPower && this.connectorTwo.inputPower);
     }
 }
 
@@ -109,14 +109,14 @@ class Not extends Gate {
     constructor(x, y) {
         super(x, y);
 
-        this.input = {
+        this.connectorOne = {
             x: x - 45,
             y: y,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
-        this.output = {
+        this.connectorTwo = {
             x: x + 41,
             y: y,
             inputPower: false,
@@ -124,7 +124,7 @@ class Not extends Gate {
             wire: undefined
         }
 
-        this.connectors = [this.input, this.output]
+        this.connectors = [this.connectorOne, this.connectorTwo]
     }
 
     draw(ctx) {
@@ -146,7 +146,7 @@ class Not extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = !this.input.inputPower
+        this.connectorTwo.outputPower = !this.connectorOne.inputPower
     }
 }
 
@@ -154,14 +154,14 @@ class Buffer extends Gate {
     constructor(x, y) {
         super(x, y);
 
-        this.input = {
+        this.connectorOne = {
             x: x - 45,
             y: y,
             inputPower: false,
             outputPower: false,
             wire: undefined
         }
-        this.output = {
+        this.connectorTwo = {
             x: x + 41,
             y: y,
             inputPower: false,
@@ -169,7 +169,7 @@ class Buffer extends Gate {
             wire: undefined
         }
 
-        this.connectors = [this.input, this.output]
+        this.connectors = [this.connectorOne, this.connectorTwo]
     }
 
     draw(ctx) {
@@ -189,7 +189,7 @@ class Buffer extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = this.input.inputPower;
+        this.connectorTwo.outputPower = this.connectorOne.inputPower;
     }
 }
 
@@ -220,7 +220,7 @@ class Or extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = this.inputOne.inputPower || this.inputTwo.inputPower;
+        this.connectorThree.outputPower = this.connectorOne.inputPower || this.connectorTwo.inputPower;
     }
 }
 
@@ -256,7 +256,7 @@ class Nor extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = !(this.inputOne.inputPower || this.inputTwo.inputPower);
+        this.connectorThree.outputPower = !(this.connectorOne.inputPower || this.connectorTwo.inputPower);
     }
 }
 
@@ -289,7 +289,7 @@ class Xor extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = (this.inputOne.inputPower != this.inputTwo.inputPower);
+        this.connectorThree.outputPower = (this.connectorOne.inputPower != this.connectorTwo.inputPower);
     }
 }
 
@@ -327,7 +327,7 @@ class Xnor extends Gate {
     update(ctx) {
         super.update(ctx);
         // update power
-        this.output.outputPower = (this.inputOne.inputPower == this.inputTwo.inputPower);
+        this.connectorThree.outputPower = (this.connectorOne.inputPower == this.connectorTwo.inputPower);
     }
 }
 

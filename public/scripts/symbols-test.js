@@ -80,21 +80,18 @@ function mouseClicker(event) {
     if (mouse.underPointer.button == true && mouse.holding == false) {
         mouse.underPointer.device.button();
     } else if (mouse.underPointer.connector != false) {
-        console.log('Connector clicked!');
         // if we clicked on a connector...
         let connector = mouse.underPointer.connector;
         // if mouse is holding the end of a wire, connect it and drop it
         if (mouse.heldDevice instanceof device.Wire) {
             mouse.heldDevice.connect(connector);
             mouse.drop();
-            console.log('Wire connected');
         } else {
             // a free mouse pointer - anchor a new wire to the connector
             let wire = new device.Wire(connector.x, connector.y);
             wire.anchor(connector);
             wires[wire.id] = wire;
             mouse.grab(wire);
-            console.log('Wire created');
         }
     }
 
@@ -160,6 +157,9 @@ devices[testBulb.id] = testBulb;
 
 let testSplitter = new device.wiring.Splitter(325, 400);
 devices[testSplitter.id] = testSplitter;
+
+let testLCD = new device.display.LCDNumber(600, 200);
+devices[testLCD.id] = testLCD;
 
 // main animation loop
 function animate() {

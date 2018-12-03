@@ -64,7 +64,7 @@ class TwoWay extends Switch {
         }
 
         // output connector
-        this.connector = {
+        this.connectorOne = {
             x: this.x,
             y: this.y + 35,
             outputPower: this.state,
@@ -73,7 +73,7 @@ class TwoWay extends Switch {
         }
 
         // keep track of all the connectors
-        this.connectors = [this.connector];
+        this.connectors = [this.connectorOne];
     }
 
 
@@ -107,7 +107,7 @@ class TwoWay extends Switch {
     update(ctx) {
         super.update(ctx);
         // update connector power
-        this.connector.outputPower = this.state;
+        this.connectorOne.outputPower = this.state;
     }
 }
 
