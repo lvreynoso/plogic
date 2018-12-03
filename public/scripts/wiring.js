@@ -64,11 +64,10 @@ class Splitter extends Device {
     update(ctx) {
         super.update(ctx);
 
+        this.state = false;
         this.connectors.forEach(connector => {
             if (connector.inputPower == true) {
                 this.state = true;
-            } else {
-                this.state = false;
             }
         })
         if (this.state == true) {
