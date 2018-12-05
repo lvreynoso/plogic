@@ -67,6 +67,12 @@ canvas{
   left: 25%;
 }
 
+/* fonts */
+@font-face {
+  font-family: 'chiq-bold';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bold.ttf') format('truetype');
+}
+
 /* home page */
 .home {
   position: fixed;
@@ -77,4 +83,10 @@ canvas{
 
 .home .welcome-blurb {
   margin-bottom: 10%;
+}
+
+.home h1 {
+  font-family: 'chiq-bold';
+  color: white;
+  font-size: 80px;
 }
