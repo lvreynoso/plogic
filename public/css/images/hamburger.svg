@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4779.494 1179.796 45.235 39">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="hamburger" transform="translate(3584 1150)">
+    <path id="Path_1" data-name="Path 1" class="cls-1" d="M2079.494,277.3h45.235" transform="translate(-884 -246)"/>
+    <path id="Path_2" data-name="Path 2" class="cls-1" d="M2079.494,277.3h45.235" transform="translate(-884 -210)"/>
+    <path id="Path_3" data-name="Path 3" class="cls-1" d="M2079.494,277.3h45.235" transform="translate(-884 -228)"/>
+  </g>
+</svg>

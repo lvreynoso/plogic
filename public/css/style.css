@@ -134,6 +134,35 @@ canvas{
   src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsili.ttf') format('truetype');
 }
 
+/* ------------------ navigation --------------------- */
+.nav-custom ul li {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-custom {
+  padding: 20px;
+  width: 100%;
+}
+.nav-custom h1 {
+  font-family: 'chiq-bold';
+}
+.nav-custom p {
+  font-family: 'appsil-regular';
+  font-size: 20px;
+  padding: 10px;
+}
+
+.nav-custom img {
+  height: 40px;
+}
+
+.nav-custom .ham {
+  float: right;
+  padding-right: 40px;
+}
+
 /* -------------------- home page ---------------------- */
 /* layout */
 .home {
@@ -155,6 +184,7 @@ canvas{
 .home h1 {
   font-size: 90px;
   color: #F0D8FA;
+  margin-bottom: 30px;
 }
 
 .home h3 {
@@ -167,10 +197,41 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: none;
+  color: #F0D8FA;
+}
+
 .home p {
   color: #D3C9D3;
   font-size: 20px;
   font-family: 'appsil-regular'
+}
+
+.home-actions h3 {
+  margin-bottom: 30px;
+}
+/* --------------- level pages ---------------- */
+/* text fonts and colors */
+.level h1 {
+  font-family: 'chiq-bold';
+  color: #F0D8FA;
+  top: 10%;
+  font-size: 50px;
+}
+
+.level p {
+  font-family: 'appsil-regular';
+  color: #F0D8FA;
+  top: 19%;
+  font-size: 20px;
+}
+
+/* positioning */
+.level h1, .level p {
+  position: fixed;
+  left: 25%;
+  margin: 20px;
 }
 
 
