@@ -62,4 +62,7 @@ canvas{
 
 #myCanvas {
   z-index: 2;
+  position: fixed;
+  top: 30%;
+  left: 25%;
 }

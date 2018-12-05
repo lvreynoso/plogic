@@ -166,9 +166,20 @@ devices[testLCD.id] = testLCD;
 function animate() {
     requestAnimationFrame(animate);
 
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // NOTE: this was what the below code was previously
+    // Attempting to debug the excess width on canvas
+    // ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // console.log(innerWidth, innerHeight)
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(0, 0, innerWidth, innerHeight);
+    // ctx.fillStyle = 'black';
+
+    // NOTE: I changed this because we should always be working
+    // with the canvas width and height, such that it is responsive
+    // if the canvas size is altered
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, innerWidth, innerHeight);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = 'black';
 
     // draw wires first so they run underneath devices
