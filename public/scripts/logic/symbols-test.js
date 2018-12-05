@@ -6,6 +6,8 @@ import * as draw from './draw.js'
 var canvas = document.getElementById("myCanvas");
 // 2D rendering context, to paint to canvas
 var ctx = canvas.getContext("2d");
+
+// NOTE: I altered this to make the canvas half of the window size
 ctx.canvas.width = window.innerWidth/2;
 ctx.canvas.height = window.innerHeight/2;
 

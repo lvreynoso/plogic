@@ -66,3 +66,15 @@ canvas{
   top: 30%;
   left: 25%;
 }
+
+/* home page */
+.home {
+  position: fixed;
+  z-index: 2;
+  top: 20%;
+  left: 25%;
+}
+
+.home .welcome-blurb {
+  margin-bottom: 10%;
+}
