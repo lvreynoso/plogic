@@ -6,8 +6,8 @@ import * as draw from './draw.js'
 var canvas = document.getElementById("myCanvas");
 // 2D rendering context, to paint to canvas
 var ctx = canvas.getContext("2d");
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
+ctx.canvas.width = window.innerWidth/2;
+ctx.canvas.height = window.innerHeight/2;
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position

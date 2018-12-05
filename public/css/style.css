@@ -18,7 +18,11 @@ canvas{
   background-image: url(""); 
   background-repeat: no-repeat; 
   background-size: cover; 
-  background-position: 50% 50%; 
+  background-position: 50% 50%;
+  /* fixing errors */
+  z-index: 0;
+  left: 0;
+  top: 0;
 } /* ---- stats.js ---- */ 
 
 .count-particles{ 
@@ -54,4 +58,8 @@ canvas{
 
 .count-particles{ 
   border-radius: 0 0 3px 3px; 
+}
+
+#myCanvas {
+  z-index: 2;
 }
