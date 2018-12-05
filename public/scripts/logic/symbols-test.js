@@ -167,6 +167,9 @@ function animate() {
     requestAnimationFrame(animate);
 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
+    ctx.fillStyle = 'black';
 
     // draw wires first so they run underneath devices
     let wireArray = Object.keys(wires);

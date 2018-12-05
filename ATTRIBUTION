@@ -1,0 +1,9 @@
+Some of the code used to style the website in
+
+- public/css/style.css
+- public/scripts/background/app.js
+- public/scripts/background/particles.js
+
+is Copyright (c) 2015, Vincent Garreau
+under The MIT License (MIT)
+http://opensource.org/licenses/MIT
