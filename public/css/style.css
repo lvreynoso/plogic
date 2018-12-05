@@ -2,6 +2,8 @@
 body{ 
   margin:0; 
   font:normal 75% Arial, Helvetica, sans-serif; 
+  /* prevent scrolling */
+  overflow: hidden;
 } 
 
 canvas{ 
@@ -67,8 +69,10 @@ canvas{
   left: 25%;
 }
 
-/* fonts */
+/* ---------------------- fonts --------------------- */
+
 /* Chiq */
+
 @font-face {
   font-family: 'chiq-bold';
   src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bold.ttf') format('truetype');
@@ -109,31 +113,53 @@ canvas{
   src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_regular.ttf') format('truetype');
 }
 
+/* appsil */
+@font-face {
+  font-family: 'appsil-regular';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsilr.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-bolditalic';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsilbi.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-bold';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/charissil-b.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-italic';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsili.ttf') format('truetype');
+}
+
 /* -------------------- home page ---------------------- */
 /* layout */
 .home {
   position: fixed;
   z-index: 2;
-  top: 20%;
-  left: 25%;
+  top: 25%;
+  left: 20%;
 }
 
 .home .welcome-blurb {
-  margin-bottom: 10%;
+  margin-bottom: 20%;
 }
 
 /* text fonts and colors */
 .home h1, .home h3 {
   font-family: 'chiq-bold';
-  color: white;
 }
 
 .home h1 {
   font-size: 90px;
+  color: #F0D8FA;
 }
 
 .home h3 {
   font-size: 50px;
+  color: white;
 }
 
 a {
@@ -144,6 +170,7 @@ a {
 .home p {
   color: #D3C9D3;
   font-size: 20px;
+  font-family: 'appsil-regular'
 }
 
 
