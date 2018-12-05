@@ -68,12 +68,49 @@ canvas{
 }
 
 /* fonts */
+/* Chiq */
 @font-face {
   font-family: 'chiq-bold';
   src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bold.ttf') format('truetype');
 }
 
-/* home page */
+@font-face {
+  font-family: 'chiq-bolditalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bolditalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-black';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-blackitalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_blackitalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-italic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-light';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-lightitalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_lightitalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-regular';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_regular.ttf') format('truetype');
+}
+
+/* -------------------- home page ---------------------- */
+/* layout */
 .home {
   position: fixed;
   z-index: 2;
@@ -85,8 +122,23 @@ canvas{
   margin-bottom: 10%;
 }
 
-.home h1 {
+/* text fonts and colors */
+.home h1, .home h3 {
   font-family: 'chiq-bold';
   color: white;
+}
+
+.home h1 {
   font-size: 80px;
 }
+
+.home h3 {
+  font-size: 50px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
