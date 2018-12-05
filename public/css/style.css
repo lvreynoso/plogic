@@ -129,7 +129,7 @@ canvas{
 }
 
 .home h1 {
-  font-size: 80px;
+  font-size: 90px;
 }
 
 .home h3 {
@@ -139,6 +139,11 @@ canvas{
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.home p {
+  color: #D3C9D3;
+  font-size: 20px;
 }
 
 
