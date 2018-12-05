@@ -96,6 +96,7 @@ class Nand extends Gate {
         ctx.moveTo(this.x + 26, this.y);
         ctx.lineTo(this.x + 36, this.y);
         ctx.stroke();
+        ctx.closePath();
     }
 
     update(ctx) {
@@ -141,6 +142,7 @@ class Not extends Gate {
         ctx.moveTo(this.x - 10 + (32 * Math.cos(Math.asin(0.5))), this.y);
         ctx.lineTo(this.x + 36, this.y);
         ctx.stroke();
+        ctx.closePath();
     }
 
     update(ctx) {
@@ -184,6 +186,7 @@ class Buffer extends Gate {
         ctx.moveTo(this.x - 20 + (32 * Math.cos(Math.asin(0.5))), this.y);
         ctx.lineTo(this.x + 36, this.y);
         ctx.stroke();
+        ctx.closePath();
     }
 
     update(ctx) {

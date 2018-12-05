@@ -50,6 +50,7 @@ class Splitter extends Device {
 
     draw(ctx) {
         ctx.strokeRect(this.x - 7.5, this.y - 7.5, 15, 15);
+        ctx.beginPath();
         ctx.moveTo(this.x, this.y - 7.5);
         ctx.lineTo(this.x, this.y - 12.5);
         ctx.moveTo(this.x + 7.5, this.y);
@@ -59,6 +60,7 @@ class Splitter extends Device {
         ctx.moveTo(this.x - 7.5, this.y);
         ctx.lineTo(this.x - 12.5, this.y);
         ctx.stroke();
+        ctx.closePath();
     }
 
     update(ctx) {

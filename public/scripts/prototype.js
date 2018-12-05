@@ -64,7 +64,6 @@ export default class Device {
         })
 
         this.draw(ctx);
-        this.draw(ctx);
         this.drawConnectors(ctx);
     }
 

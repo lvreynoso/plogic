@@ -119,7 +119,8 @@ function mouseReleaser(event) {
     }
 }
 
-ctx.font = '18px sans-serif'
+ctx.font = '18px sans-serif';
+ctx.lineWidth = 2;
 
 let testGateOR = new device.gate.Or(75, 200);
 devices[testGateOR.id] = testGateOR;

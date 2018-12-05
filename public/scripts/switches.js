@@ -95,7 +95,6 @@ class TwoWay extends Switch {
             ctx.fill();
         }
         ctx.closePath();
-        ctx.fillStyle = 'black';
         ctx.beginPath();
         ctx.moveTo(this.x, this.y + 25);
         ctx.lineTo(this.x, this.y + 30);

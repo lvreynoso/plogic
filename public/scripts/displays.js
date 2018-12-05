@@ -35,18 +35,29 @@ class Bulb extends Display {
     }
 
     draw(ctx) {
+        ctx.strokeStyle = 'black';
         ctx.beginPath();
         ctx.arc(this.x, this.y, 20, (2 / 3) * Math.PI, (1 / 3) * Math.PI, false);
-        ctx.lineTo(this.x + (20 * Math.sin(Math.PI / 6)), this.y + 30);
-        ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + 30);
+        ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + (20 * Math.cos(Math.PI / 6)));
         ctx.closePath();
-        ctx.moveTo(this.x, this.y + 30);
-        ctx.lineTo(this.x, this.y + 35);
         ctx.stroke();
         if (this.state == true) {
             ctx.fillStyle = 'yellow';
             ctx.fill();
         }
+
+        ctx.beginPath();
+        ctx.moveTo(this.x + (20 * Math.sin(Math.PI / 6)), this.y + (20 * Math.cos(Math.PI / 6)))
+        ctx.lineTo(this.x + (20 * Math.sin(Math.PI / 6)), this.y + 30);
+        ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + 30);
+        ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + (20 * Math.cos(Math.PI / 6)));
+        ctx.moveTo(this.x + 0, this.y + 30);
+        ctx.lineTo(this.x + 0, this.y + 35);
+        ctx.stroke();
+        ctx.closePath();
+        // rectangle doesn't fill properly...why?
+        ctx.fillStyle = 'grey';
+        ctx.strokeRect(this.x - (20 * Math.sin(Math.PI / 6) + 0.5), this.y + (20 * Math.cos(Math.PI / 6)) + 0.5, 2 * (20 * Math.sin(Math.PI / 6)), 30 - (20 * Math.cos(Math.PI / 6)))
         ctx.fillStyle = 'black';
     }
 
@@ -102,6 +113,7 @@ class LCDNumber extends Display {
 
     draw(ctx) {
         // black background
+        ctx.fillStyle = 'black';
         ctx.fillRect(this.x - 35, this.y - 60, 70, 120);
         // connector wires
         ctx.beginPath();
@@ -117,6 +129,7 @@ class LCDNumber extends Display {
         ctx.lineTo(this.x + 30, this.y + 65);
 
         ctx.stroke();
+        ctx.closePath();
     }
 
     drawNumber(ctx, n) {
