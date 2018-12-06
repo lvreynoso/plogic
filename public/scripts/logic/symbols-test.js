@@ -6,8 +6,10 @@ import * as draw from './draw.js'
 var canvas = document.getElementById("myCanvas");
 // 2D rendering context, to paint to canvas
 var ctx = canvas.getContext("2d");
-ctx.canvas.width = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
+
+// NOTE: I altered this to make the canvas half of the window size
+ctx.canvas.width = window.innerWidth/2;
+ctx.canvas.height = window.innerHeight/2;
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position
@@ -169,9 +171,20 @@ devices[testLCD.id] = testLCD;
 function animate() {
     requestAnimationFrame(animate);
 
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // NOTE: this was what the below code was previously
+    // Attempting to debug the excess width on canvas
+    // ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // console.log(innerWidth, innerHeight)
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(0, 0, innerWidth, innerHeight);
+    // ctx.fillStyle = 'black';
+
+    // NOTE: I changed this because we should always be working
+    // with the canvas width and height, such that it is responsive
+    // if the canvas size is altered
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, innerWidth, innerHeight);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = 'black';
 
     // draw wires first so they run underneath devices

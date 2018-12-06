@@ -2,6 +2,8 @@
 body{ 
   margin:0; 
   font:normal 75% Arial, Helvetica, sans-serif; 
+  /* prevent scrolling */
+  overflow: hidden;
 } 
 
 canvas{ 
@@ -18,7 +20,11 @@ canvas{
   background-image: url(""); 
   background-repeat: no-repeat; 
   background-size: cover; 
-  background-position: 50% 50%; 
+  background-position: 50% 50%;
+  /* fixing errors */
+  z-index: 0;
+  left: 0;
+  top: 0;
 } /* ---- stats.js ---- */ 
 
 .count-particles{ 
@@ -55,3 +61,177 @@ canvas{
 .count-particles{ 
   border-radius: 0 0 3px 3px; 
 }
+
+#myCanvas {
+  z-index: 2;
+  position: fixed;
+  top: 30%;
+  left: 25%;
+}
+
+/* ---------------------- fonts --------------------- */
+
+/* Chiq */
+
+@font-face {
+  font-family: 'chiq-bold';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-bolditalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_bolditalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-black';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-blackitalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_blackitalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-italic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-light';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-lightitalic';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_lightitalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'chiq-regular';
+  src: url('fonts/Chiq-FontZillion/Fonts/chiq_reduced_regular.ttf') format('truetype');
+}
+
+/* appsil */
+@font-face {
+  font-family: 'appsil-regular';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsilr.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-bolditalic';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsilbi.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-bold';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/charissil-b.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'appsil-italic';
+  src: url('fonts/Apparatus\ SIL-FontZillion/Fonts/appsili.ttf') format('truetype');
+}
+
+/* ------------------ navigation --------------------- */
+.nav-custom ul li {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-custom {
+  padding: 20px;
+  width: 100%;
+}
+.nav-custom h1 {
+  font-family: 'chiq-bold';
+}
+.nav-custom p {
+  font-family: 'appsil-regular';
+  font-size: 20px;
+  padding: 10px;
+}
+
+.nav-custom img {
+  height: 40px;
+}
+
+.nav-custom .ham {
+  float: right;
+  padding-right: 40px;
+}
+
+/* -------------------- home page ---------------------- */
+/* layout */
+.home {
+  position: fixed;
+  z-index: 2;
+  top: 25%;
+  left: 20%;
+}
+
+.home .welcome-blurb {
+  margin-bottom: 20%;
+}
+
+/* text fonts and colors */
+.home h1, .home h3 {
+  font-family: 'chiq-bold';
+}
+
+.home h1 {
+  font-size: 90px;
+  color: #F0D8FA;
+  margin-bottom: 30px;
+}
+
+.home h3 {
+  font-size: 50px;
+  color: white;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #F0D8FA;
+}
+
+.home p {
+  color: #D3C9D3;
+  font-size: 20px;
+  font-family: 'appsil-regular'
+}
+
+.home-actions h3 {
+  margin-bottom: 30px;
+}
+/* --------------- level pages ---------------- */
+/* text fonts and colors */
+.level h1 {
+  font-family: 'chiq-bold';
+  color: #F0D8FA;
+  top: 10%;
+  font-size: 50px;
+}
+
+.level p {
+  font-family: 'appsil-regular';
+  color: #F0D8FA;
+  top: 19%;
+  font-size: 20px;
+}
+
+/* positioning */
+.level h1, .level p {
+  position: fixed;
+  left: 25%;
+  margin: 20px;
+}
+
+
