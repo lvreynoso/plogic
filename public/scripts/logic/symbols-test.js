@@ -96,14 +96,17 @@ function mouseClicker(event) {
     }
 
     // if we clicked on nothing and we're holding a wire, delete it
-    console.log(mouse.underPointer, mouse.heldDevice instanceof device.Wire);
     if (!mouse.underPointer.device && !mouse.underPointer.connector && !mouse.underPointer.button && mouse.heldDevice instanceof device.Wire) {
         let droppedWire = mouse.heldDevice;
         mouse.drop();
         droppedWire.cut();
     }
 
-    console.log(wires);
+    let deviceArray = Object.keys(devices);
+    let jsonArray = deviceArray.map(key => {
+        return JSON.stringify(devices[key].constructor.name);
+    });
+    console.log(mouse.underPointer, mouse.heldDevice instanceof device.Wire, wires, jsonArray);
 }
 
 function mouseGrabber(event) {
@@ -173,7 +176,7 @@ function animate() {
 
     // draw wires first so they run underneath devices
     let wireArray = Object.keys(wires);
-    wireArray.map(key => {
+    wireArray.forEach(key => {
         wires[key].update(ctx);
         if (wires[key].isCut == true) {
             delete wires[key];
@@ -187,14 +190,19 @@ function animate() {
         connector: false,
         button: false
     }
-    deviceArray.map(key => {
+    // draw connectors first
+    deviceArray.forEach(key => {
+        devices[key].drawConnectors(ctx);
+    })
+    // then draw the rest of the device
+    deviceArray.forEach(key => {
         // draw the device
         devices[key].update(ctx)
         // now we check if the device is under the mouse pointer
         let focused = false;
         // look through all the connectors - if pointer is over one,
         // draw focus ring and keep note of it
-        devices[key].connectors.map(connector => {
+        devices[key].connectors.forEach(connector => {
             if (utils.getDistance(mouse, connector) < 10) {
                 draw.connectorFocus(ctx, connector);
                 focused = true;
