@@ -144,6 +144,7 @@ canvas{
 .nav-custom {
   padding: 20px;
   width: 100%;
+  position: fixed;
 }
 .nav-custom h1 {
   font-family: 'chiq-bold';
@@ -188,7 +189,7 @@ canvas{
 }
 
 .home h3 {
-  font-size: 50px;
+  font-size: 70px;
   color: white;
 }
 
@@ -204,7 +205,7 @@ a:hover {
 
 .home p {
   color: #D3C9D3;
-  font-size: 20px;
+  font-size: 22px;
   font-family: 'appsil-regular'
 }
 
@@ -232,6 +233,53 @@ a:hover {
   position: fixed;
   left: 25%;
   margin: 20px;
+}
+
+/* ------------- login/signup --------------- */
+
+.log-forms {
+  position: fixed;
+  top: 15%;
+  left: 25%;
+  right: 25%;
+}
+
+.log-forms * {
+  text-align: center;
+  width: 700px;
+}
+
+.form-group {
+  margin: 20px;
+}
+
+.log-forms legend {
+  font-family: 'chiq-regular';
+  color: #F0D8FA;
+  font-size: 60px;
+}
+
+.form-group button {
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.log-forms input {
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  text-align: left;
+}
+
+.log-forms label {
+  color: #F0D8FA;
+  text-align: left;
+  font-family: 'appsil-regular';
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+.form-group {
+  padding-bottom: 10px;
 }
 
 
