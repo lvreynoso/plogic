@@ -69,7 +69,8 @@ class TwoWay extends Switch {
             y: this.y + 35,
             outputPower: this.state,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
 
         // keep track of all the connectors
@@ -95,10 +96,10 @@ class TwoWay extends Switch {
             ctx.fill();
         }
         ctx.closePath();
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y + 25);
-        ctx.lineTo(this.x, this.y + 30);
-        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.moveTo(this.x, this.y + 25);
+        // ctx.lineTo(this.x, this.y + 30);
+        // ctx.closePath();
         ctx.stroke();
     }
 

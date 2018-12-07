@@ -20,12 +20,20 @@ export default class Device {
         // on/off; off by default
         this.held = false;
 
+        this.spoke = {
+            north: 'north',
+            south: 'south',
+            east: 'east',
+            west: 'west'
+        }
+
         this.connectorOne = {
             x: this.x,
             y: this.y,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: undefined
         }
 
         // keep track of all the connectors
@@ -50,6 +58,34 @@ export default class Device {
             ctx.beginPath();
             ctx.arc(connector.x, connector.y, 5, 0, 2 * Math.PI, false);
             ctx.stroke();
+            // connector spokes so they're drawn under devices
+            // really only need them for displays
+            switch (connector.spoke) {
+                case this.spoke.north:
+                    ctx.moveTo(connector.x, connector.y - 5);
+                    ctx.lineTo(connector.x, connector.y - 10);
+                    ctx.stroke();
+                    break;
+                case this.spoke.south:
+                    ctx.moveTo(connector.x, connector.y + 5);
+                    ctx.lineTo(connector.x, connector.y + 10);
+                    ctx.stroke();
+                    break;
+                case this.spoke.east:
+                    ctx.moveTo(connector.x + 5, connector.y);
+                    ctx.lineTo(connector.x + 10, connector.y);
+                    ctx.stroke();
+                    break;
+                case this.spoke.west:
+                    ctx.moveTo(connector.x - 5, connector.y);
+                    ctx.lineTo(connector.x - 10, connector.y);
+                    ctx.stroke();
+                    break;
+                // safari doesn't even complain if this isn't here, but to be safe...
+                default:
+                    break;
+            }
+            ctx.closePath();
         })
     }
 
@@ -64,7 +100,7 @@ export default class Device {
         })
 
         this.draw(ctx);
-        this.drawConnectors(ctx);
+        // this.drawConnectors(ctx);
     }
 
     updateLocation(x, y) {

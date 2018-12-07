@@ -1,65 +1,66 @@
-/* ---- reset ---- */ 
-body{ 
-  margin:0; 
-  font:normal 75% Arial, Helvetica, sans-serif; 
+/* ---- reset ---- */
+body{
+  margin:0;
+  font:normal 75% Arial, Helvetica, sans-serif;
   /* prevent scrolling */
-  overflow: hidden;
-} 
+  /* overflow: hidden; */
+  background-color: #2a1034;
+}
 
-canvas{ 
-  display: block; 
-  vertical-align: bottom; 
-} 
+canvas{
+  display: block;
+  vertical-align: bottom;
+}
 
-/* ---- particles.js container ---- */ 
-#particles-js{ 
-  position:absolute; 
-  width: 100%; 
-  height: 100%; 
-  background-color: #2a1034; 
-  background-image: url(""); 
-  background-repeat: no-repeat; 
-  background-size: cover; 
+/* ---- particles.js container ---- */
+#particles-js{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #2a1034;
+  background-image: url("");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: 50% 50%;
   /* fixing errors */
-  z-index: 0;
+  z-index: -1;
   left: 0;
   top: 0;
-} /* ---- stats.js ---- */ 
+} /* ---- stats.js ---- */
 
-.count-particles{ 
-  background: #000022; 
-  position: absolute; 
-  top: 48px; 
-  left: 0; 
-  width: 80px; 
-  color: #13E8E9; 
-  font-size: .8em; 
-  text-align: left; 
-  text-indent: 4px; 
-  line-height: 14px; 
-  padding-bottom: 2px; 
-  font-family: Helvetica, Arial, sans-serif; 
-  font-weight: bold; 
-} 
+.count-particles{
+  background: #000022;
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 80px;
+  color: #13E8E9;
+  font-size: .8em;
+  text-align: left;
+  text-indent: 4px;
+  line-height: 14px;
+  padding-bottom: 2px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
 
-.js-count-particles{ 
-  font-size: 1.1em; 
-} 
+.js-count-particles{
+  font-size: 1.1em;
+}
 
-#stats, .count-particles{ 
-  -webkit-user-select: none; 
-  margin-top: 5px; 
-  margin-left: 5px; 
-} 
+#stats, .count-particles{
+  -webkit-user-select: none;
+  margin-top: 5px;
+  margin-left: 5px;
+}
 
-#stats{ 
-  border-radius: 3px 3px 0 0; 
-  overflow: hidden; 
-} 
+#stats{
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
+}
 
-.count-particles{ 
-  border-radius: 0 0 3px 3px; 
+.count-particles{
+  border-radius: 0 0 3px 3px;
 }
 
 #myCanvas {
@@ -235,6 +236,7 @@ a:hover {
   margin: 20px;
 }
 
+<<<<<<< HEAD
 /* ------------- login/signup --------------- */
 
 .log-forms {
@@ -282,4 +284,14 @@ a:hover {
   padding-bottom: 10px;
 }
 
+=======
+.container legend, button {
+    font-family: 'chiq-bold';
+    color: #F0D8FA;
+}
+>>>>>>> 55f374ae49c019fa05cb89bc6e8bf29a18ba4dd3
 
+.container label {
+    font-family: 'appsil-regular';
+    color: #F0D8FA;
+}

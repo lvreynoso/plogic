@@ -20,28 +20,32 @@ class Splitter extends Device {
             y: this.y - 17.5,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.south
         }
         this.connectorTwo = {
             x: this.x + 17.5,
             y: this.y,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.west
         }
         this.connectorThree = {
             x: this.x,
             y: this.y + 17.5,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectorFour = {
             x: this.x - 17.5,
             y: this.y,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.east
         }
 
         // keep track of all the connectors
@@ -50,17 +54,17 @@ class Splitter extends Device {
 
     draw(ctx) {
         ctx.strokeRect(this.x - 7.5, this.y - 7.5, 15, 15);
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y - 7.5);
-        ctx.lineTo(this.x, this.y - 12.5);
-        ctx.moveTo(this.x + 7.5, this.y);
-        ctx.lineTo(this.x + 12.5, this.y);
-        ctx.moveTo(this.x, this.y + 7.5);
-        ctx.lineTo(this.x, this.y + 12.5);
-        ctx.moveTo(this.x - 7.5, this.y);
-        ctx.lineTo(this.x - 12.5, this.y);
-        ctx.stroke();
-        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.moveTo(this.x, this.y - 7.5);
+        // ctx.lineTo(this.x, this.y - 12.5);
+        // ctx.moveTo(this.x + 7.5, this.y);
+        // ctx.lineTo(this.x + 12.5, this.y);
+        // ctx.moveTo(this.x, this.y + 7.5);
+        // ctx.lineTo(this.x, this.y + 12.5);
+        // ctx.moveTo(this.x - 7.5, this.y);
+        // ctx.lineTo(this.x - 12.5, this.y);
+        // ctx.stroke();
+        // ctx.closePath();
     }
 
     update(ctx) {

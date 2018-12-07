@@ -13,10 +13,9 @@ import cookieParser from 'cookie-parser'
 
 // controllers
 import index from './controllers/index.js'
-import posts from './controllers/posts.js'
-import subleerlos from './controllers/subleerlos.js'
-import comments from './controllers/comments.js'
 import auth from './controllers/auth.js'
+import levels from './controllers/levels.js'
+import playground from './controllers/playground.js'
 
 // db and models
 import database from './database/database.js'
@@ -46,15 +45,12 @@ app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 
 // routes that need authentication
-app.use('/posts/new', checkAuth);
-app.use('/comments', checkAuth);
 
 // routes
-app.use('/', index)
-app.use('/l', subleerlos)
-app.use('/posts', posts)
-app.use('/comments', comments)
-app.use('/', auth)
+app.use(index);
+app.use(auth);
+app.use(playground);
+app.use(levels);
 
 // face the world
 const hotPort = app.get('port')

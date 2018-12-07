@@ -92,19 +92,19 @@ class Wire {
         ctx.beginPath();
         ctx.moveTo(this.start.x, this.start.y);
         ctx.lineTo(this.end.x, this.end.y);
-        ctx.stroke();
 
         if (this.start.inputPower == true || this.end.inputPower == true) {
-            ctx.beginPath();
-            ctx.moveTo(this.start.x - 1, this.start.y - 1);
-            ctx.lineTo(this.end.x - 1, this.end.y - 1);
-            ctx.moveTo(this.start.x + 1, this.start.y + 1);
-            ctx.lineTo(this.end.x + 1, this.end.y + 1);
+            // ctx.beginPath();
+            // ctx.moveTo(this.start.x - 1, this.start.y - 1);
+            // ctx.lineTo(this.end.x - 1, this.end.y - 1);
+            // ctx.moveTo(this.start.x + 1, this.start.y + 1);
+            // ctx.lineTo(this.end.x + 1, this.end.y + 1);
             // ctx.strokeStyle = '#7DF9FF'
             ctx.strokeStyle = '#42f44e';
-            ctx.stroke();
-            ctx.strokeStyle = 'black';
         }
+        ctx.stroke();
+        ctx.closePath();
+        ctx.strokeStyle = 'black';
     }
 
     update(ctx) {

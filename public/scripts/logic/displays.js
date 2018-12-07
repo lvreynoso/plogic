@@ -29,7 +29,8 @@ class Bulb extends Display {
             y: this.y + 40,
             inputPower: false,
             outputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectors = [this.connectorOne];
     }
@@ -51,8 +52,8 @@ class Bulb extends Display {
         ctx.lineTo(this.x + (20 * Math.sin(Math.PI / 6)), this.y + 30);
         ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + 30);
         ctx.lineTo(this.x - (20 * Math.sin(Math.PI / 6)), this.y + (20 * Math.cos(Math.PI / 6)));
-        ctx.moveTo(this.x + 0, this.y + 30);
-        ctx.lineTo(this.x + 0, this.y + 35);
+        // ctx.moveTo(this.x + 0, this.y + 30);
+        // ctx.lineTo(this.x + 0, this.y + 35);
         ctx.stroke();
         ctx.closePath();
         // rectangle doesn't fill properly...why?
@@ -77,35 +78,40 @@ class LCDNumber extends Display {
             y: this.y + 70,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectorTwo = {
             x: this.x - 10,
             y: this.y + 70,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectorThree = {
             x: this.x + 10,
             y: this.y + 70,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectorFour = {
             x: this.x + 30,
             y: this.y + 70,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.north
         }
         this.connectorFive = {
             x: this.x,
             y: this.y - 70,
             outputPower: false,
             inputPower: false,
-            wire: undefined
+            wire: undefined,
+            spoke: this.spoke.south
         }
 
         this.connectors = [this.connectorOne, this.connectorTwo, this.connectorThree, this.connectorFour, this.connectorFive]
@@ -116,20 +122,20 @@ class LCDNumber extends Display {
         ctx.fillStyle = 'black';
         ctx.fillRect(this.x - 35, this.y - 60, 70, 120);
         // connector wires
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y - 60);
-        ctx.lineTo(this.x, this.y - 65);
-        ctx.moveTo(this.x - 10, this.y + 60);
-        ctx.lineTo(this.x - 10, this.y + 65);
-        ctx.moveTo(this.x - 30, this.y + 60);
-        ctx.lineTo(this.x - 30, this.y + 65);
-        ctx.moveTo(this.x + 10, this.y + 60);
-        ctx.lineTo(this.x + 10, this.y + 65);
-        ctx.moveTo(this.x + 30, this.y + 60);
-        ctx.lineTo(this.x + 30, this.y + 65);
+        // ctx.beginPath();
+        // ctx.moveTo(this.x, this.y - 60);
+        // ctx.lineTo(this.x, this.y - 65);
+        // ctx.moveTo(this.x - 10, this.y + 60);
+        // ctx.lineTo(this.x - 10, this.y + 65);
+        // ctx.moveTo(this.x - 30, this.y + 60);
+        // ctx.lineTo(this.x - 30, this.y + 65);
+        // ctx.moveTo(this.x + 10, this.y + 60);
+        // ctx.lineTo(this.x + 10, this.y + 65);
+        // ctx.moveTo(this.x + 30, this.y + 60);
+        // ctx.lineTo(this.x + 30, this.y + 65);
 
-        ctx.stroke();
-        ctx.closePath();
+        // ctx.stroke();
+        // ctx.closePath();
     }
 
     drawNumber(ctx, n) {
