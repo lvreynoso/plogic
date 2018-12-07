@@ -8,7 +8,7 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 // NOTE: I altered this to make the canvas half of the window size
-ctx.canvas.width = window.innerWidth/2;
+ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight/2;
 
 // fix coordinate issue by getting our canvas bounds
