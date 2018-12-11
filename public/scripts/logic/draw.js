@@ -123,9 +123,45 @@ class Menu {
             }
         }
 
-        this.switches = {};
-        this.displays = {};
-        this.wiring = {};
+        this.switches = {
+            q: {
+                device: new device.switches.TwoWay(x + 166.67, y + 200),
+                label: {
+                    text: "Two Way Switch",
+                    x: x + 80,
+                    y: y + 150
+                }
+            },
+        };
+
+        this.displays = {
+            q: {
+                device: new device.display.Bulb(x + 166.67, y + 200),
+                label: {
+                    text: "Light Bulb",
+                    x: x + 80,
+                    y: y + 150
+                }
+            },
+            w: {
+                device: new device.display.LCDNumber(x + 500, y + 200),
+                label: {
+                    text: "LCD Number Display",
+                    x: x + 413,
+                    y: y + 150
+                }
+            },
+        };
+        this.wiring = {
+            q: {
+                device: new device.wiring.Splitter(x + 166.67, y + 200),
+                label: {
+                    text: "Splitter",
+                    x: x + 80,
+                    y: y + 150
+                }
+            },
+        };
 
         this.selected = '1';
         this.category = {
@@ -157,12 +193,15 @@ class Menu {
             case 'z':
             case 'x':
             case 'c':
-                mouse.normal();
                 let selectedCategory = this.category[this.selected];
-                let selectedDevice = selectedCategory[key].device;
-                let copy = selectedDevice.clone(mouse.x, mouse.y);
-                mouse.clone(copy);
-                this.toggle();
+                if (selectedCategory.hasOwnProperty(key)) {
+                    mouse.normal();
+                    let selectedDevice = selectedCategory[key].device;
+                    let copy = selectedDevice.clone(mouse.x, mouse.y);
+                    mouse.clone(copy);
+                    this.toggle();
+                }
+                break;
             default:
                 break;
         }
@@ -281,12 +320,17 @@ class Menu {
 
     drawCategory(ctx) {
         ctx.font = '28px chiq-bold';
+        let selectedCategory = this.category[this.selected]
         switch (this.selected) {
             case '1':
-                let gatesArray = Object.keys(this.gates);
-                gatesArray.forEach(key => {
-                    let deviceToDraw = this.gates[key].device
-                    let labelToDraw = this.gates[key].label
+            case '2':
+            case '3':
+            case '4':
+                let deviceArray = Object.keys(selectedCategory);
+                deviceArray.forEach(key => {
+                    let deviceToDraw = selectedCategory[key].device
+                    let labelToDraw = selectedCategory[key].label
+                    deviceToDraw.drawConnectors(ctx);
                     deviceToDraw.update(ctx);
                     ctx.fillText(labelToDraw.text, labelToDraw.x, labelToDraw.y)
                 })
