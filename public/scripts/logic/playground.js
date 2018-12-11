@@ -20,10 +20,15 @@ window.addEventListener('mousedown', mouseGrabber);
 window.addEventListener('mouseup', mouseReleaser);
 window.addEventListener('click', mouseClicker);
 
+// get keyboard presses for menu
+window.addEventListener('keypress', keyMenu);
+
 var mouse = {
     x: undefined,
     y: undefined,
     holding: false,
+    cloning: false,
+    erasing: false,
     heldDevice: undefined,
     underPointer: {
         device: false,
@@ -32,7 +37,7 @@ var mouse = {
     },
 
     grab(item) {
-        if (this.holding == false) {
+        if (this.holding == false || this.cloning == true) {
             this.holding = true;
             this.heldDevice = item;
             this.heldDevice.hold();
@@ -42,17 +47,46 @@ var mouse = {
     drop() {
         if (this.heldDevice != undefined) {
             this.heldDevice.drop();
+            console.log('dropped!');
         }
+        if (this.cloning == true) {
+            let copy = this.heldDevice.clone(this.x, this.y);
+            this.clone(copy);
+        } else {
+            this.holding = false;
+            this.heldDevice = undefined;
+        }
+    },
+
+    clone(item) {
+        this.cloning = true;
+        this.grab(item);
+        devices[this.heldDevice.id] = this.heldDevice;
+    },
+
+    normal() {
+        this.cloning = false;
+        this.erasing = false;
         this.holding = false;
+        if (this.heldDevice != undefined) {
+            delete devices[this.heldDevice.id];
+        }
         this.heldDevice = undefined;
+    },
+
+    erase() {
+        this.erasing = true;
     }
 }
 
 var devices = {};
 var wires = {};
+var overlays = {};
 
 // fix coordinate issue by getting our canvas bounds
 // and offsetting the mouse position
+// TODO - still having problems if the page is reloaded while scrolled down
+// ughhhhhh
 function locator(event) {
     let location = {
         x: undefined,
@@ -63,6 +97,7 @@ function locator(event) {
     return location
 }
 
+// mouse event code
 function mouseTracker(event) {
     let loc = locator(event)
     mouse.x = loc.x;
@@ -75,34 +110,73 @@ function mouseTracker(event) {
     }
 }
 
+var keyboard = {
+    menu: false,
+    eraser: false
+}
+
+// keyboard menu code
+function keyMenu(event) {
+    const key = event.key;
+    switch (key) {
+        case '`':
+            keyboard.menu.toggle();
+            break;
+        case 'Backspace':
+            if (mouse.cloning == true || mouse.erasing == true) {
+                mouse.normal();
+            } else if (mouse.holding == false) {
+                mouse.erase();
+            }
+            break;
+        default:
+            if (keyboard.menu.state == true) {
+                keyboard.menu.select(key, mouse);
+            }
+            break;
+    }
+}
 
 function mouseClicker(event) {
-    // if we clicked on a button, toggle the button
-    if (mouse.underPointer.button == true && mouse.holding == false) {
-        mouse.underPointer.device.button();
-    } else if (mouse.underPointer.connector != false) {
-        // if we clicked on a connector...
-        let connector = mouse.underPointer.connector;
-        // if mouse is holding the end of a wire, connect it and drop it
-        if (mouse.heldDevice instanceof device.Wire) {
-            mouse.heldDevice.connect(connector);
+    // if mouse is in erase mode, erase the device under the mouse
+    if (mouse.erasing == true && mouse.underPointer.device != false) {
+        let erasedDevice = mouse.underPointer.device;
+        // first erase all the connected wires
+        erasedDevice.connectors.forEach(connector => {
+            if (connector.wire != undefined) {
+                connector.wire.cut();
+            }
+        })
+        // then delete the device
+        delete devices[erasedDevice.id];
+    } else {
+        // if we clicked on a button, toggle the button
+        if (mouse.underPointer.button == true && mouse.holding == false) {
+            mouse.underPointer.device.button();
+        } else if (mouse.underPointer.connector != false) {
+            // if we clicked on a connector...
+            let connector = mouse.underPointer.connector;
+            // if mouse is holding the end of a wire, connect it and drop it
+            if (mouse.heldDevice instanceof device.Wire) {
+                mouse.heldDevice.connect(connector);
+                mouse.drop();
+            } else {
+                // a free mouse pointer - anchor a new wire to the connector
+                let wire = new device.Wire(connector.x, connector.y);
+                wire.anchor(connector);
+                wires[wire.id] = wire;
+                mouse.grab(wire);
+            }
+        }
+
+        // if we clicked on nothing and we're holding a wire, delete it
+        if (!mouse.underPointer.device && !mouse.underPointer.connector && !mouse.underPointer.button && mouse.heldDevice instanceof device.Wire) {
+            let droppedWire = mouse.heldDevice;
             mouse.drop();
-        } else {
-            // a free mouse pointer - anchor a new wire to the connector
-            let wire = new device.Wire(connector.x, connector.y);
-            wire.anchor(connector);
-            wires[wire.id] = wire;
-            mouse.grab(wire);
+            droppedWire.cut();
         }
     }
-
-    // if we clicked on nothing and we're holding a wire, delete it
-    if (!mouse.underPointer.device && !mouse.underPointer.connector && !mouse.underPointer.button && mouse.heldDevice instanceof device.Wire) {
-        let droppedWire = mouse.heldDevice;
-        mouse.drop();
-        droppedWire.cut();
-    }
-
+    // debugging
     let deviceArray = Object.keys(devices);
     let jsonArray = deviceArray.map(key => {
         return JSON.stringify(devices[key].constructor.name);
@@ -123,60 +197,16 @@ function mouseReleaser(event) {
     }
 }
 
-ctx.font = '18px sans-serif';
-ctx.lineWidth = 2;
-
-let testGateOR = new device.gate.Or(75, 200);
-devices[testGateOR.id] = testGateOR;
-
-let testGateNOR = new device.gate.Nor(75, 300);
-devices[testGateNOR.id] = testGateNOR;
-
-let testGateXOR = new device.gate.Xor(75, 400);
-devices[testGateXOR.id] = testGateXOR;
-
-let testGateXNOR = new device.gate.Xnor(75, 500);
-devices[testGateXNOR.id] = testGateXNOR;
-
-let testGateAND = new device.gate.And(200, 200);
-devices[testGateAND.id] = testGateAND;
-
-let testGateNAND = new device.gate.Nand(200, 300);
-devices[testGateNAND.id] = testGateNAND;
-
-let testGateNOT = new device.gate.Not(200, 400);
-devices[testGateNOT.id] = testGateNOT;
-
-let testGateBuffer = new device.gate.Buffer(200, 500);
-devices[testGateBuffer.id] = testGateBuffer;
-
-let testSwitch = new device.switches.TwoWay(325, 200);
-testSwitch.state = true;
-devices[testSwitch.id] = testSwitch;
-
-let testSwitch2 = new device.switches.TwoWay(325, 300);
-devices[testSwitch2.id] = testSwitch2;
-
-let testBulb = new device.display.Bulb(460, 200);
-devices[testBulb.id] = testBulb;
-
-let testSplitter = new device.wiring.Splitter(325, 400);
-devices[testSplitter.id] = testSplitter;
-
-let testLCD = new device.display.LCDNumber(600, 200);
-devices[testLCD.id] = testLCD;
+let mainMenu = new draw.Menu(50, 50, device);
+overlays[mainMenu.type] = mainMenu;
+keyboard.menu = mainMenu;
 
 // main animation loop
 function animate() {
     requestAnimationFrame(animate);
 
-    // NOTE: this was what the below code was previously
-    // Attempting to debug the excess width on canvas
-    // ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // console.log(innerWidth, innerHeight)
-    // ctx.fillStyle = 'white';
-    // ctx.fillRect(0, 0, innerWidth, innerHeight);
-    // ctx.fillStyle = 'black';
+    ctx.font = '18px sans-serif';
+    ctx.lineWidth = 2;
 
     // NOTE: I changed this because we should always be working
     // with the canvas width and height, such that it is responsive
@@ -234,13 +264,26 @@ function animate() {
         }
     });
 
+    // draw menu over everything
+    let menuActive = false;
+    let overlayArray = Object.keys(overlays);
+    overlayArray.forEach(key => {
+        overlays[key].update(ctx);
+        if (overlays[key].state == true) {
+            menuActive = true;
+        }
+    })
+
+    // draw eraser
+    if (mouse.erasing == true) {
+        draw.eraser(ctx, mouse);
+    }
+
+    // positioning debug - draw mouse focus
+    // draw.mouseFocus(ctx, mouse);
+
     // update devices under the cursor
     mouse.underPointer = found;
-
-
-    ctx.fillText('Gates', 140, 150)
-    ctx.fillText('Switches', 300, 150)
-    ctx.fillText('Bulb', 440, 150)
 }
 
 animate();

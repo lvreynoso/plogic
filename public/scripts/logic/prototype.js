@@ -40,6 +40,10 @@ export default class Device {
         this.connectors = [this.connectorOne];
     }
 
+    clone(x, y) {
+        return new this.constructor(x, y);
+    }
+
     hold() {
         this.held = true;
     }
