@@ -24,8 +24,8 @@ window.addEventListener('click', mouseClicker);
 window.addEventListener('keypress', keyMenu);
 
 var mouse = {
-    x: undefined,
-    y: undefined,
+    x: 0,
+    y: 0,
     holding: false,
     cloning: false,
     erasing: false,
@@ -89,12 +89,12 @@ var overlays = {};
 // ughhhhhh
 function locator(event) {
     let location = {
-        x: undefined,
-        y: undefined
+        x: 0,
+        y: 0
     }
-    location.x = event.pageX - canvasBounds.x;
-    location.y = event.pageY - canvasBounds.y;
-    return location
+    location.x = event.pageX - canvasBounds.left;
+    location.y = event.pageY - canvasBounds.top;
+    return location;
 }
 
 // mouse event code
