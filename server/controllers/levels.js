@@ -9,17 +9,17 @@ var _express = _interopRequireDefault(require("express"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// index.js
-const index = _express.default.Router();
+// levels.js
+const levels = _express.default.Router();
 
-index.get('/', (req, res) => {
+levels.get('/level-:id', (req, res) => {
   const currentUser = req.user;
   console.log(req.user);
   console.log(currentUser);
-  res.render('index', {
+  res.render(`levels/${req.params.id}`, {
     currentUser
   });
 });
-var _default = index;
+var _default = levels;
 exports.default = _default;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=levels.js.map

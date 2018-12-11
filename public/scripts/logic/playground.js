@@ -264,8 +264,6 @@ function animate() {
         }
     });
 
-    // just in case
-    ctx.fillStyle = 'black';
     // draw menu over everything
     let menuActive = false;
     let overlayArray = Object.keys(overlays);

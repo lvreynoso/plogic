@@ -227,7 +227,7 @@ class Menu {
 
         // section labels
         // Gates
-        if (this.category == '1') {
+        if (this.selected == '1') {
             ctx.fillStyle = '#42f44e'
         } else {
             ctx.fillStyle = 'white';
@@ -240,7 +240,7 @@ class Menu {
         ctx.fillText('1', this.x + 18, this.y + 65);
 
         // Switches
-        if (this.category == '2') {
+        if (this.selected == '2') {
             ctx.fillStyle = '#42f44e'
         } else {
             ctx.fillStyle = 'white';
@@ -253,7 +253,7 @@ class Menu {
         ctx.fillText('2', this.x + 268, this.y + 65);
 
         // Displays
-        if (this.category == '3') {
+        if (this.selected == '3') {
             ctx.fillStyle = '#42f44e'
         } else {
             ctx.fillStyle = 'white';
@@ -266,7 +266,7 @@ class Menu {
         ctx.fillText('3', this.x + 518, this.y + 65);
 
         // Wiring
-        if (this.category == '4') {
+        if (this.selected == '4') {
             ctx.fillStyle = '#42f44e'
         } else {
             ctx.fillStyle = 'white';

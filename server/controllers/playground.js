@@ -9,17 +9,17 @@ var _express = _interopRequireDefault(require("express"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// index.js
-const index = _express.default.Router();
+// playground.js
+const playground = _express.default.Router();
 
-index.get('/', (req, res) => {
+playground.get('/playground', (req, res) => {
   const currentUser = req.user;
   console.log(req.user);
   console.log(currentUser);
-  res.render('index', {
+  res.render('playground', {
     currentUser
   });
 });
-var _default = index;
+var _default = playground;
 exports.default = _default;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=playground.js.map

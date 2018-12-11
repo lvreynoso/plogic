@@ -146,6 +146,8 @@ canvas{
   padding: 20px;
   width: 100%;
   position: fixed;
+  background-color: #2a1034;
+  height: 75px;
 }
 .nav-custom h1 {
   font-family: 'chiq-bold';
@@ -296,24 +298,35 @@ a:hover {
 
 /* --------------- playground page ---------------- */
 
+#playgroundContainer {
+    padding-top: 60px;
+}
+
 .playground h1 {
   font-family: 'chiq-bold';
   color: #F0D8FA;
-  top: 10%;
+  /* top: 10%; */
   font-size: 50px;
+}
+
+.playground h2, h3 {
+  font-family: 'chiq-bold';
+  color: #F0D8FA;
+  /* top: 10%; */
+  /* font-size: 50px; */
 }
 
 .playground p {
   font-family: 'appsil-regular';
   color: #F0D8FA;
-  top: 19%;
+  /* top: 19%; */
   font-size: 20px;
+  /* white-space: normal; */
 }
 
 /* positioning */
 .playground h1, p {
   /* position: fixed; */
-  left: 25%;
   margin: 20px;
 }
 
